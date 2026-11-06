@@ -27,6 +27,20 @@ Run `aiattentiondashboard --size` to get the page's current width and height, an
 - Remove items once they are handled.
   Stale items train the user to ignore the dashboard.
 
+## Show your state
+
+Always show which state you are in, so the user can tell at a glance without reading:
+
+| State | When | Color | Icon |
+| - | - | - | - |
+| Working | You are busy and the user doesn't need to act. | Amber `#d18a00` | `…` |
+| Waiting | You need input from the user. | Red `#c62828` | `?` |
+| Done | You have finished, or are idle. | Green `#1e7a3c` | `✓` |
+
+- Put the state in a narrow colored bar down the left edge, with its icon centered in it.
+- When Waiting, also add a red line saying where to answer (for example, "Question needs your attention (terminal)").
+- Keep the rest of the page dark and neutral, so the state color is what stands out.
+
 ## How to write the HTML
 
 - Write one complete, self-contained HTML file.
