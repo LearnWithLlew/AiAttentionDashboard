@@ -114,6 +114,20 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Skill_PrintsSkillPage()
+    {
+        var output = new StringWriter();
+        var error = new StringWriter();
+
+        var exitCode = await new CommandLineParser(files, environment).RunAsync(["--skill"], output, error);
+
+        Assert.Equal(0, exitCode);
+        Assert.Equal("", error.ToString());
+        Assert.Empty(environment.Calls);
+        await Verify(output.ToString(), "md");
+    }
+
+    [Fact]
     public async Task NoOptions_ExplainsUsage()
     {
         await Verify(await Run());
