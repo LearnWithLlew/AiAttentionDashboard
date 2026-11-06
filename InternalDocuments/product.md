@@ -24,6 +24,12 @@ The layout has four windows:
 The dashboard browser is short and wide, about one fifth of the screen height.
 It is the only window the user needs to glance at to know what needs attention.
 
+## HTML file location
+
+The HTML page lives at `.local/aiattentiondashboard/dashboard.html`, relative to the folder where `--start` runs.
+The `.local/` folder is listed in `.gitignore`, so the page is never committed.
+`--start` should give a message to Claude saying where the HTML file is located.
+
 ## Basics
 
 ```
