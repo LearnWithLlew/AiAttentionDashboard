@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net.Http.Json;
 using System.Reflection;
 
 namespace AIAttentionDashboard;
@@ -94,6 +95,22 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
         catch (TaskCanceledException)
         {
             return 0;
+        }
+    }
+
+    public async Task<PageSize?> RequestPageSizeAsync(ServerInfo server)
+    {
+        try
+        {
+            return await Http.GetFromJsonAsync<PageSize>(new Uri(server.BaseUri, "size"));
+        }
+        catch (HttpRequestException)
+        {
+            return null;
+        }
+        catch (TaskCanceledException)
+        {
+            return null;
         }
     }
 

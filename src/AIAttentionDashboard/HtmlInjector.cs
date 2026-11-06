@@ -5,7 +5,17 @@ internal static class HtmlInjector
 {
     internal const string ReloadScript = """
         <script>
-        new EventSource('/events').addEventListener('refresh', () => location.reload());
+        {
+            new EventSource('/events').addEventListener('refresh', () => location.reload());
+            const reportSize = () => fetch('/size', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ width: innerWidth, height: innerHeight }),
+            });
+            let resizeTimer;
+            addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(reportSize, 200); });
+            reportSize();
+        }
         </script>
         """;
 

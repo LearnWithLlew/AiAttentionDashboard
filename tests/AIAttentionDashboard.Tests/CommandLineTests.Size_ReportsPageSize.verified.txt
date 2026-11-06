@@ -1,0 +1,9 @@
+﻿{
+  Output:
+The dashboard page is 1200 wide and 300 tall, in CSS pixels. Make content that fits without scrolling.
+,
+  Error: ,
+  Calls: [
+    RequestPageSize(port 6000)
+  ]
+}

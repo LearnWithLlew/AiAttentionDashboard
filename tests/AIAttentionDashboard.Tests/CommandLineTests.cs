@@ -125,6 +125,30 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Size_ReportsPageSize()
+    {
+        files.WriteServerInfo(6000);
+        environment.PageSize = new PageSize(1200, 300);
+
+        await Verify(await Run("--size"));
+    }
+
+    [Fact]
+    public async Task Size_WhenNoPageOpen_Fails()
+    {
+        files.WriteServerInfo(6000);
+        environment.PageSize = null;
+
+        await Verify(await Run("--size"));
+    }
+
+    [Fact]
+    public async Task Size_WhenNeverStarted_Fails()
+    {
+        await Verify(await Run("--size"));
+    }
+
+    [Fact]
     public async Task Skill_PrintsSkillPage()
     {
         var output = new StringWriter();

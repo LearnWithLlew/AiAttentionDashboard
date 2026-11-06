@@ -1,3 +1,6 @@
+using System.Net;
+using System.Net.Http.Json;
+
 namespace AIAttentionDashboard.Tests;
 
 public class DashboardServerTests : IAsyncLifetime
@@ -59,6 +62,27 @@ public class DashboardServerTests : IAsyncLifetime
 
         Assert.Equal("1", reloaded);
         Assert.Equal("event: refresh", await reader.ReadLineAsync(timeout.Token));
+    }
+
+    [Fact]
+    public async Task Size_WithNoPage_IsNotFound()
+    {
+        var response = await http.GetAsync(new Uri(baseUri, "size"));
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Size_ReturnsWhatTheConnectedPageReported()
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        using var events = await http.GetAsync(new Uri(baseUri, "events"), HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+        using var reader = new StreamReader(await events.Content.ReadAsStreamAsync(timeout.Token));
+        await reader.ReadLineAsync(timeout.Token); // ": connected"
+
+        await http.PostAsJsonAsync(new Uri(baseUri, "size"), new PageSize(1200, 300), timeout.Token);
+
+        Assert.Equal(new PageSize(1200, 300), await http.GetFromJsonAsync<PageSize>(new Uri(baseUri, "size"), timeout.Token));
     }
 
     [Fact]

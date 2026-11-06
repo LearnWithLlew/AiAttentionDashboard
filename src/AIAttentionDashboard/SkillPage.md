@@ -16,6 +16,7 @@ The user glances at it instead of reading the terminal.
 The dashboard sits in a small browser window on the right side of the screen.
 It is short and wide: about one fifth of the screen height.
 Everything must fit without scrolling.
+Run `aiattentiondashboard --size` to get the page's current width and height, and design for that.
 
 ## What to show
 

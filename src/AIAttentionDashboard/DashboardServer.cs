@@ -15,6 +15,7 @@ internal sealed class DashboardServer : IAsyncDisposable
 {
     private readonly WebApplication app;
     private readonly ConcurrentDictionary<Channel<string>, byte> listeners = new();
+    private volatile PageSize? pageSize;
 
     private DashboardServer(WebApplication app, int port)
     {
@@ -42,6 +43,10 @@ internal sealed class DashboardServer : IAsyncDisposable
         app.MapGet("/events", context => server!.StreamEventsAsync(context));
         app.MapPost("/refresh", () => Results.Ok(server!.Broadcast()));
         app.MapGet("/pages", () => Results.Ok(server!.listeners.Count));
+        app.MapPost("/size", (PageSize size) => server!.pageSize = size);
+        app.MapGet("/size", () => server!.listeners.IsEmpty || server.pageSize is null
+            ? Results.NotFound()
+            : Results.Ok(server.pageSize));
         app.MapPost("/stop", () =>
         {
             app.Lifetime.StopApplication();

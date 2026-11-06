@@ -16,6 +16,9 @@ internal interface IDashboardEnvironment
     /// <returns>How many browser pages are showing the dashboard, or 0 if the server could not be reached.</returns>
     Task<int> CountConnectedPagesAsync(ServerInfo server);
 
+    /// <returns>The size an open page last reported, or null if no page is open or the server could not be reached.</returns>
+    Task<PageSize?> RequestPageSizeAsync(ServerInfo server);
+
     /// <returns>True if the server acknowledged the request to shut down, false if it could not be reached.</returns>
     Task<bool> RequestStopAsync(ServerInfo server);
 }

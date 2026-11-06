@@ -2,7 +2,7 @@
 
 ## Processes
 
-1. **CLI** (`aiattentiondashboard --start | --refresh | --stop | --skill`): short-lived, talks to the server over HTTP.
+1. **CLI** (`aiattentiondashboard --start | --refresh | --stop | --size | --skill`): short-lived, talks to the server over HTTP.
 1. **Server** (`aiattentiondashboard --serve`, hidden): long-lived background process launched by `--start`.
 
 ## Files
@@ -20,17 +20,20 @@ Kestrel on `127.0.0.1`, random port.
 - `GET /events`: Server-Sent Events stream the page listens on.
 - `POST /refresh`: sends `refresh` to every open page and returns how many there were.
 - `GET /pages`: how many pages are connected; `--start` skips opening a browser when this is above 0.
+- `POST /size`: the page reports its viewport size on load and after resizing.
+- `GET /size`: the last reported size, or 404 if no page is connected.
 - `POST /stop`: shuts the server down.
 - `GET /ping`: health check.
 
 ## Code
 
-- `CommandLineParser`: System.CommandLine options, `--start`/`--refresh`/`--stop`/`--skill` logic.
-- `IDashboardEnvironment`: the side-effect boundary (launch server, ping, count pages, refresh, stop, open browser).
+- `CommandLineParser`: System.CommandLine options, `--start`/`--refresh`/`--stop`/`--size`/`--skill` logic.
+- `IDashboardEnvironment`: the side-effect boundary (launch server, ping, count pages, refresh, get page size, stop, open browser).
 - `RealDashboardEnvironment`: the production implementation.
 - `DashboardServer`: Kestrel app and SSE broadcast.
 - `DashboardFiles`: paths, stub HTML, `server.json`.
-- `HtmlInjector`: adds the reload script.
+- `HtmlInjector`: adds the script that reloads the page and reports its size.
+- `PageSize`: the page's viewport size in CSS pixels.
 - `SkillPage`: reads the embedded `SkillPage.md` that `--skill` prints.
 
 ## Tests

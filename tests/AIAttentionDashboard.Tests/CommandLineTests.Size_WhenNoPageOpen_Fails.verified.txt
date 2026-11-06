@@ -1,0 +1,10 @@
+﻿{
+  ExitCode: 1,
+  Output: ,
+  Error:
+No dashboard page is open to measure. Run `aiattentiondashboard --start` first.
+,
+  Calls: [
+    RequestPageSize(port 6000)
+  ]
+}

@@ -36,6 +36,14 @@ internal sealed class FakeDashboardEnvironment : IDashboardEnvironment
         return Task.FromResult(ConnectedPages);
     }
 
+    public PageSize? PageSize { get; set; }
+
+    public Task<PageSize?> RequestPageSizeAsync(ServerInfo server)
+    {
+        Calls.Add($"RequestPageSize(port {server.Port})");
+        return Task.FromResult(PageSize);
+    }
+
     public bool ServerStops { get; set; }
 
     public Task<bool> RequestStopAsync(ServerInfo server)

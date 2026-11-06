@@ -11,6 +11,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         var start = new Option<bool>("--start") { Description = "Start the dashboard if needed and open it in a browser." };
         var refresh = new Option<bool>("--refresh") { Description = "Reload the dashboard page in the browser." };
         var stop = new Option<bool>("--stop") { Description = "Stop the dashboard server." };
+        var size = new Option<bool>("--size") { Description = "Print the dashboard page's size, so you can make content that fits." };
         var skill = new Option<bool>("--skill") { Description = "Print a skill page for AI agents on how to use the dashboard well." };
         var serve = new Option<bool>(ServeOptionName) { Description = "Run the dashboard server in this process.", Hidden = true };
 
@@ -18,6 +19,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         root.Options.Add(start);
         root.Options.Add(refresh);
         root.Options.Add(stop);
+        root.Options.Add(size);
         root.Options.Add(skill);
         root.Options.Add(serve);
         root.SetAction(async (parseResult, cancellationToken) =>
@@ -38,12 +40,16 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
             {
                 return await StopAsync(output);
             }
+            if (parseResult.GetValue(size))
+            {
+                return await SizeAsync(output, error);
+            }
             if (parseResult.GetValue(skill))
             {
                 output.Write(SkillPage.Read());
                 return 0;
             }
-            error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, or --skill, or --help for usage.");
+            error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, --size, or --skill, or --help for usage.");
             return 1;
         });
 
@@ -85,6 +91,19 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         output.WriteLine(reloaded == 0
             ? "Refreshed, but no browser page is connected. Run `aiattentiondashboard --start` to open one."
             : $"Refreshed {reloaded} browser page(s).");
+        return 0;
+    }
+
+    private async Task<int> SizeAsync(TextWriter output, TextWriter error)
+    {
+        var server = files.ReadServerInfo();
+        var size = server is null ? null : await environment.RequestPageSizeAsync(server);
+        if (size is null)
+        {
+            error.WriteLine("No dashboard page is open to measure. Run `aiattentiondashboard --start` first.");
+            return 1;
+        }
+        output.WriteLine($"The dashboard page is {size.Width} wide and {size.Height} tall, in CSS pixels. Make content that fits without scrolling.");
         return 0;
     }
 
