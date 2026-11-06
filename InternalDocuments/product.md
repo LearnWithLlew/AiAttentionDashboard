@@ -34,6 +34,9 @@ The dashboard always makes it clear which of these states Claude is in:
 
 The user should be able to tell the state at a glance, without reading the page's text.
 
+Claude shows the state in the HTML it writes; the tool doesn't track it.
+The `--skill` page tells Claude how to show each state.
+
 ## HTML file location
 
 The HTML page lives at `.local/aiattentiondashboard/dashboard.html`, relative to the folder where `--start` runs.
