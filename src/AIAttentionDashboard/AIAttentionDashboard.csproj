@@ -11,6 +11,15 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>aiattentiondashboard</ToolCommandName>
     <PackageOutputPath>$(MSBuildThisFileDirectory)../../nupkg</PackageOutputPath>
+    <PackageId>AIAttentionDashboard</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Llewellyn Falco, Jay Bazuzi</Authors>
+    <Description>A CLI for AI coding agents that shows high-level action items for the user in a small browser window.</Description>
+    <PackageTags>ai;claude;dashboard;cli;dotnet-tool</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/LearnWithLlew/AiAttentionDashboard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LearnWithLlew/AiAttentionDashboard.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
