@@ -1,0 +1,11 @@
+plugins = ["csharp", "generic"]
+files = [
+  "src/**/*.cs",
+  "test/**/*.cs",
+  "!**/bin/**",
+  "!**/obj/**",
+]
+
+# The solution or project the roslyn sensor builds; delete if the folder has only one.
+[sensors.roslyn]
+args = ["--project", "src/MyProject/MyProject.csproj"]
