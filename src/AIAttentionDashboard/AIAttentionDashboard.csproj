@@ -20,6 +20,7 @@
     <PackageProjectUrl>https://github.com/LearnWithLlew/AiAttentionDashboard</PackageProjectUrl>
     <RepositoryUrl>https://github.com/LearnWithLlew/AiAttentionDashboard.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="SkillPage.md" LogicalName="SkillPage.md" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
