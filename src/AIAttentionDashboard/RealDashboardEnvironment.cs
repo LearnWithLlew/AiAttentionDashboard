@@ -80,4 +80,20 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
             return null;
         }
     }
+
+    public async Task<bool> RequestStopAsync(ServerInfo server)
+    {
+        try
+        {
+            return (await Http.PostAsync(new Uri(server.BaseUri, "stop"), content: null)).IsSuccessStatusCode;
+        }
+        catch (HttpRequestException)
+        {
+            return false;
+        }
+        catch (TaskCanceledException)
+        {
+            return false;
+        }
+    }
 }

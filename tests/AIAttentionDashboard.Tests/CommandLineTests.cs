@@ -88,6 +88,32 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Stop_StopsRunningServer()
+    {
+        files.WriteServerInfo(6000);
+        environment.ServerStops = true;
+
+        await Verify(await Run("--stop"));
+        Assert.False(File.Exists(files.ServerInfoPath));
+    }
+
+    [Fact]
+    public async Task Stop_WhenNeverStarted_SaysSo()
+    {
+        await Verify(await Run("--stop"));
+    }
+
+    [Fact]
+    public async Task Stop_WhenServerUnreachable_CleansUpStaleServerInfo()
+    {
+        files.WriteServerInfo(6000);
+        environment.ServerStops = false;
+
+        await Verify(await Run("--stop"));
+        Assert.False(File.Exists(files.ServerInfoPath));
+    }
+
+    [Fact]
     public async Task NoOptions_ExplainsUsage()
     {
         await Verify(await Run());

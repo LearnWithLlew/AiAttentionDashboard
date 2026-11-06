@@ -2,7 +2,7 @@
 
 ## Processes
 
-1. **CLI** (`aiattentiondashboard --start | --refresh`): short-lived, talks to the server over HTTP.
+1. **CLI** (`aiattentiondashboard --start | --refresh | --stop`): short-lived, talks to the server over HTTP.
 1. **Server** (`aiattentiondashboard --serve`, hidden): long-lived background process launched by `--start`.
 
 ## Files
@@ -19,12 +19,13 @@ Kestrel on `127.0.0.1`, random port.
 - `GET /`: `dashboard.html` with a live-reload script injected before `</body>`.
 - `GET /events`: Server-Sent Events stream the page listens on.
 - `POST /refresh`: sends `refresh` to every open page and returns how many there were.
+- `POST /stop`: shuts the server down.
 - `GET /ping`: health check.
 
 ## Code
 
-- `CommandLineParser`: System.CommandLine options, `--start`/`--refresh` logic.
-- `IDashboardEnvironment`: the side-effect boundary (launch server, ping, refresh, open browser).
+- `CommandLineParser`: System.CommandLine options, `--start`/`--refresh`/`--stop` logic.
+- `IDashboardEnvironment`: the side-effect boundary (launch server, ping, refresh, stop, open browser).
 - `RealDashboardEnvironment`: the production implementation.
 - `DashboardServer`: Kestrel app and SSE broadcast.
 - `DashboardFiles`: paths, stub HTML, `server.json`.

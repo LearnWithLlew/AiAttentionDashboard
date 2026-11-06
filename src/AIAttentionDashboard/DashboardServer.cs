@@ -41,6 +41,11 @@ internal sealed class DashboardServer : IAsyncDisposable
         app.MapGet("/ping", () => "pong");
         app.MapGet("/events", context => server!.StreamEventsAsync(context));
         app.MapPost("/refresh", () => Results.Ok(server!.Broadcast()));
+        app.MapPost("/stop", () =>
+        {
+            app.Lifetime.StopApplication();
+            return Results.Ok();
+        });
 
         await app.StartAsync();
         var address = app.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>()!.Addresses.First();

@@ -12,4 +12,7 @@ internal interface IDashboardEnvironment
 
     /// <returns>How many open pages were told to reload, or null if the server could not be reached.</returns>
     Task<int?> RequestRefreshAsync(ServerInfo server);
+
+    /// <returns>True if the server acknowledged the request to shut down, false if it could not be reached.</returns>
+    Task<bool> RequestStopAsync(ServerInfo server);
 }

@@ -2,6 +2,6 @@
   ExitCode: 1,
   Output: ,
   Error:
-Nothing to do. Pass --start or --refresh, or --help for usage.
+Nothing to do. Pass --start, --refresh, or --stop, or --help for usage.
 
 }

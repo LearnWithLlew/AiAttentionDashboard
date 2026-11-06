@@ -27,4 +27,12 @@ internal sealed class FakeDashboardEnvironment : IDashboardEnvironment
         Calls.Add($"RequestRefresh(port {server.Port})");
         return Task.FromResult(PagesToReload);
     }
+
+    public bool ServerStops { get; set; }
+
+    public Task<bool> RequestStopAsync(ServerInfo server)
+    {
+        Calls.Add($"RequestStop(port {server.Port})");
+        return Task.FromResult(ServerStops);
+    }
 }

@@ -37,6 +37,16 @@ public class DashboardServerTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Stop_ShutsDownServer()
+    {
+        var response = await http.PostAsync(new Uri(baseUri, "stop"), null);
+
+        Assert.True(response.IsSuccessStatusCode);
+        var shutdown = server.WaitForShutdownAsync();
+        Assert.Same(shutdown, await Task.WhenAny(shutdown, Task.Delay(TimeSpan.FromSeconds(10))));
+    }
+
+    [Fact]
     public async Task Refresh_SendsEventToConnectedPage()
     {
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
