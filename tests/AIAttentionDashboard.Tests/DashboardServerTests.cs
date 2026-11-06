@@ -15,7 +15,7 @@ public class DashboardServerTests : IAsyncLifetime
         var files = new DashboardFiles(workingFolder);
         files.EnsureHtmlExists();
         server = await DashboardServer.StartAsync(files);
-        baseUri = new ServerInfo(server.Port).BaseUri;
+        baseUri = new ServerInfo(server.Port, Environment.ProcessId).BaseUri;
     }
 
     public async ValueTask DisposeAsync()

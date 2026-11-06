@@ -22,10 +22,10 @@ internal sealed class DashboardFiles(string workingFolder)
         }
     }
 
-    public void WriteServerInfo(int port)
+    public void WriteServerInfo(ServerInfo server)
     {
         Directory.CreateDirectory(Folder);
-        File.WriteAllText(ServerInfoPath, JsonSerializer.Serialize(new ServerInfo(port)));
+        File.WriteAllText(ServerInfoPath, JsonSerializer.Serialize(server));
     }
 
     public ServerInfo? ReadServerInfo() =>
@@ -52,7 +52,7 @@ internal sealed class DashboardFiles(string workingFolder)
         """;
 }
 
-internal sealed record ServerInfo(int Port)
+internal sealed record ServerInfo(int Port, int ProcessId)
 {
     public Uri BaseUri => new($"http://127.0.0.1:{Port}/");
 }

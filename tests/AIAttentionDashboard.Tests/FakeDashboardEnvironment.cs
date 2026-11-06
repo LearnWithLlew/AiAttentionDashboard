@@ -17,7 +17,7 @@ internal sealed class FakeDashboardEnvironment : IDashboardEnvironment
     public Task<ServerInfo> LaunchServerAsync()
     {
         Calls.Add("LaunchServer");
-        return Task.FromResult(new ServerInfo(5000));
+        return Task.FromResult(new ServerInfo(5000, ProcessId: 5555));
     }
 
     public void OpenBrowser(Uri uri) => Calls.Add($"OpenBrowser({uri})");

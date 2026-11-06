@@ -120,15 +120,9 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
     {
         files.EnsureHtmlExists();
         await using var server = await DashboardServer.StartAsync(files);
-        files.WriteServerInfo(server.Port);
-        try
-        {
-            await server.WaitForShutdownAsync();
-        }
-        finally
-        {
-            files.DeleteServerInfo();
-        }
+        // The CLI owns server.json from here on. Deleting it on shutdown could delete a newer server's file.
+        files.WriteServerInfo(new ServerInfo(server.Port, Environment.ProcessId));
+        await server.WaitForShutdownAsync();
         return 0;
     }
 }

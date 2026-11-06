@@ -27,7 +27,7 @@ public class CommandLineTests : IDisposable
     public async Task Start_WhenAlreadyRunning_DoesNotLaunchAgain()
     {
         files.EnsureHtmlExists();
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.ServerResponding = true;
 
         await Verify(await Run("--start"));
@@ -37,7 +37,7 @@ public class CommandLineTests : IDisposable
     public async Task Start_WhenPageAlreadyOpen_DoesNotOpenAnother()
     {
         files.EnsureHtmlExists();
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.ServerResponding = true;
         environment.ConnectedPages = 1;
 
@@ -48,7 +48,7 @@ public class CommandLineTests : IDisposable
     public async Task Start_WhenServerInfoIsStale_LaunchesServer()
     {
         files.EnsureHtmlExists();
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.ServerResponding = false;
 
         await Verify(await Run("--start"));
@@ -74,7 +74,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Refresh_WhenServerUnreachable_Fails()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.PagesToReload = null;
 
         await Verify(await Run("--refresh"));
@@ -83,7 +83,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Refresh_ReloadsConnectedPages()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.PagesToReload = 2;
 
         await Verify(await Run("--refresh"));
@@ -92,7 +92,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Refresh_WithNoConnectedPages_SaysSo()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.PagesToReload = 0;
 
         await Verify(await Run("--refresh"));
@@ -101,7 +101,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Stop_StopsRunningServer()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.ServerStops = true;
 
         await Verify(await Run("--stop"));
@@ -117,7 +117,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Stop_WhenServerUnreachable_CleansUpStaleServerInfo()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.ServerStops = false;
 
         await Verify(await Run("--stop"));
@@ -127,7 +127,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Size_ReportsPageSize()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.PageSize = new PageSize(1200, 300);
 
         await Verify(await Run("--size"));
@@ -136,7 +136,7 @@ public class CommandLineTests : IDisposable
     [Fact]
     public async Task Size_WhenNoPageOpen_Fails()
     {
-        files.WriteServerInfo(6000);
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
         environment.PageSize = null;
 
         await Verify(await Run("--size"));

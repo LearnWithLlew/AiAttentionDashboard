@@ -19,6 +19,7 @@ internal interface IDashboardEnvironment
     /// <returns>The size an open page last reported, or null if no page is open or the server could not be reached.</returns>
     Task<PageSize?> RequestPageSizeAsync(ServerInfo server);
 
+    /// <summary>Asks the server to shut down and waits for its process to exit, so its files are no longer locked.</summary>
     /// <returns>True if the server acknowledged the request to shut down, false if it could not be reached.</returns>
     Task<bool> RequestStopAsync(ServerInfo server);
 }

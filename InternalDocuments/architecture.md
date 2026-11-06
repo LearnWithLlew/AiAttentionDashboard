@@ -10,7 +10,9 @@
 All under `.local/aiattentiondashboard/`, relative to the working folder.
 
 - `dashboard.html`: content Claude writes; the tool creates a stub only if it's missing.
-- `server.json`: the server's port; present and answering `/ping` means "running".
+- `server.json`: the server's port and process ID; present and answering `/ping` means "running".
+  The server writes it on startup; only the CLI deletes it, so an exiting server can't delete a newer server's file.
+  `--stop` waits for that process to exit, so the executable is unlocked when it returns.
 
 ## Server endpoints
 

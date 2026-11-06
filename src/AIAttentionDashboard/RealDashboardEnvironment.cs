@@ -118,7 +118,10 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
     {
         try
         {
-            return (await Http.PostAsync(new Uri(server.BaseUri, "stop"), content: null)).IsSuccessStatusCode;
+            if (!(await Http.PostAsync(new Uri(server.BaseUri, "stop"), content: null)).IsSuccessStatusCode)
+            {
+                return false;
+            }
         }
         catch (HttpRequestException)
         {
@@ -127,6 +130,37 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
         catch (TaskCanceledException)
         {
             return false;
+        }
+        await WaitForExitAsync(server.ProcessId);
+        return true;
+    }
+
+    private static async Task WaitForExitAsync(int processId)
+    {
+        Process process;
+        try
+        {
+            process = Process.GetProcessById(processId);
+        }
+        catch (ArgumentException)
+        {
+            return; // Already exited.
+        }
+        using (process)
+        {
+            // The server runs the same executable as this CLI; anything else means the ID was reused.
+            if (process.ProcessName != Process.GetCurrentProcess().ProcessName)
+            {
+                return;
+            }
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            try
+            {
+                await process.WaitForExitAsync(timeout.Token);
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
     }
 }
