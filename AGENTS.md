@@ -33,3 +33,5 @@ Numbered lists in markdown files prefix every item with `1.`, not an incrementin
 ## Commit messages
 Use `tools/create-commit-message.sh` to build every commit message in this repo. Run `bash tools/create-commit-message.sh <risk> <intention> "<message>"` and use its stdout as the commit message.
 See `InternalDocuments/commit_notation.md` for what the risk and intention codes mean.
+
+Commit as you go, in small steps. Refactorings and test improvements should also be committed separately.
