@@ -1,4 +1,4 @@
-# AI Attention Dashboard
+# ![](https://raw.githubusercontent.com/LearnWithLlew/AiAttentionDashboard/master/icon.png) AI Attention Dashboard
 
 A small browser window where your AI coding agent tells you what needs your attention.
 Instead of scrolling the terminal to find out whether Claude is working, waiting on you, or done, you glance at the dashboard.
