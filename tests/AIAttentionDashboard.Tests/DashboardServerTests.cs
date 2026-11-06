@@ -102,6 +102,27 @@ public class DashboardServerTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Size_AfterRefresh_WaitsForThePageToReconnect()
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        var page = await http.GetAsync(new Uri(baseUri, "events"), HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+        await new StreamReader(await page.Content.ReadAsStreamAsync(timeout.Token)).ReadLineAsync(timeout.Token); // ": connected"
+        await http.PostAsJsonAsync(new Uri(baseUri, "size"), new PageSize(1200, 300), timeout.Token);
+        await http.PostAsync(new Uri(baseUri, "refresh"), null, timeout.Token);
+
+        page.Dispose(); // the page reloads, so its stream closes
+        while (await http.GetStringAsync(new Uri(baseUri, "pages"), timeout.Token) != "0")
+        {
+            await Task.Delay(10, timeout.Token);
+        }
+        var size = http.GetAsync(new Uri(baseUri, "size"), timeout.Token);
+        using var reloaded = await http.GetAsync(new Uri(baseUri, "events"), HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+        await new StreamReader(await reloaded.Content.ReadAsStreamAsync(timeout.Token)).ReadLineAsync(timeout.Token); // ": connected"
+
+        Assert.Equal(new PageSize(1200, 300), await (await size).Content.ReadFromJsonAsync<PageSize>(timeout.Token));
+    }
+
+    [Fact]
     public async Task Pages_CountsConnectedPages()
     {
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));

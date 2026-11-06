@@ -16,6 +16,8 @@ internal sealed class DashboardServer : IAsyncDisposable
     private readonly WebApplication app;
     private readonly ConcurrentDictionary<Channel<string>, byte> listeners = new();
     private volatile PageSize? pageSize;
+    private static readonly TimeSpan ReconnectWait = TimeSpan.FromSeconds(3);
+    private long reloadingUntil;
 
     private DashboardServer(WebApplication app, int port)
     {
@@ -45,9 +47,13 @@ internal sealed class DashboardServer : IAsyncDisposable
         app.MapPost("/refresh", () => Results.Ok(server!.Broadcast()));
         app.MapGet("/pages", () => Results.Ok(server!.listeners.Count));
         app.MapPost("/size", (PageSize size) => server!.pageSize = size);
-        app.MapGet("/size", () => server!.listeners.IsEmpty || server.pageSize is null
-            ? Results.NotFound()
-            : Results.Ok(server.pageSize));
+        app.MapGet("/size", async () =>
+        {
+            await server!.WaitForReloadingPagesAsync();
+            return server.listeners.IsEmpty || server.pageSize is null
+                ? Results.NotFound()
+                : Results.Ok(server.pageSize);
+        });
         app.MapPost("/stop", () =>
         {
             app.Lifetime.StopApplication();
@@ -76,7 +82,20 @@ internal sealed class DashboardServer : IAsyncDisposable
                 count++;
             }
         }
+        if (count > 0)
+        {
+            Interlocked.Exchange(ref reloadingUntil, Environment.TickCount64 + (long)ReconnectWait.TotalMilliseconds);
+        }
         return count;
+    }
+
+    /// <summary>Reloading pages briefly drop their event stream, so give them a moment to reconnect.</summary>
+    private async Task WaitForReloadingPagesAsync()
+    {
+        while (listeners.IsEmpty && Environment.TickCount64 < Interlocked.Read(ref reloadingUntil))
+        {
+            await Task.Delay(25);
+        }
     }
 
     private void EndAllStreams()
