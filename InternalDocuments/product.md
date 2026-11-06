@@ -44,7 +44,18 @@ It also gives a small prompt back to Claude so that it understands how to get mo
 --refresh
 ```
 
+
+
 Refreshes the HTML page in the browser to show the latest content.
+
+
+
+```
+--stop
+```
+
+Stops the server.
+
 
 ```
 --size
