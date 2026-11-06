@@ -1,0 +1,10 @@
+﻿<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>AI Attention Dashboard</title></head>
+<body>
+<p>Nothing needs your attention yet.</p>
+<script>
+new EventSource('/events').addEventListener('refresh', () => location.reload());
+</script>
+</body>
+</html>

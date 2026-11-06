@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AIAttentionDashboard/AIAttentionDashboard.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AIAttentionDashboard.Tests/AIAttentionDashboard.Tests.csproj" />
+  </Folder>
+</Solution>

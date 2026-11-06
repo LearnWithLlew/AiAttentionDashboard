@@ -1,0 +1,9 @@
+﻿{
+  Output:
+Refreshed, but no browser page is connected. Run `aiattentiondashboard --start` to open one.
+,
+  Error: ,
+  Calls: [
+    RequestRefresh(port 6000)
+  ]
+}

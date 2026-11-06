@@ -1,0 +1,7 @@
+﻿{
+  ExitCode: 1,
+  Output: ,
+  Error:
+The dashboard is not running. Run `aiattentiondashboard --start` first.
+
+}

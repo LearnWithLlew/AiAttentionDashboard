@@ -1,0 +1,12 @@
+﻿{
+  Output:
+The AI Attention Dashboard is started at http://127.0.0.1:5000/
+It shows the HTML file at: {WorkingFolder}/.local/aiattentiondashboard/dashboard.html
+Write high-level action items for the user into that file, then run `aiattentiondashboard --refresh` to reload the browser.
+,
+  Error: ,
+  Calls: [
+    LaunchServer,
+    OpenBrowser(http://127.0.0.1:5000/)
+  ]
+}
