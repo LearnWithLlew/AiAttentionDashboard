@@ -24,6 +24,16 @@ The layout has four windows:
 The dashboard browser is short and wide, about one fifth of the screen height.
 It is the only window the user needs to glance at to know what needs attention.
 
+## Claude's state
+
+The dashboard always makes it clear which of these states Claude is in:
+
+1. Working: Claude is busy on something, and the user doesn't need to act.
+1. Waiting: Claude needs input from the user.
+1. Done: Claude has finished, or is idle.
+
+The user should be able to tell the state at a glance, without reading the page's text.
+
 ## HTML file location
 
 The HTML page lives at `.local/aiattentiondashboard/dashboard.html`, relative to the folder where `--start` runs.
