@@ -2,7 +2,7 @@
 
 ## What it is
 
-This is a CLI that allows for three main things:
+This is a CLI meant for Claude that allows for three main things:
 
 1. Opens and refreshes an HTML page in a browser
 1. Gives a mechanical help page for Claude
