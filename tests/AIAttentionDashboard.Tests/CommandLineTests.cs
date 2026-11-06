@@ -55,6 +55,14 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Start_KeepsItsFilesOutOfGit()
+    {
+        await Run("--start");
+
+        Assert.Equal("*\n", File.ReadAllText(Path.Combine(files.Folder, ".gitignore")));
+    }
+
+    [Fact]
     public async Task Start_DoesNotOverwriteExistingHtml()
     {
         files.EnsureHtmlExists();

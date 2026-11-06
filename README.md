@@ -40,8 +40,7 @@ The dashboard keeps its files in `.local/aiattentiondashboard/` under the folder
 
 - `dashboard.html`: the page the agent writes.
 - `server.json`: the running server's port and process ID.
-
-Add `.local/` to your `.gitignore` so they aren't committed.
+- `.gitignore`: ignores everything in that folder, so git never shows these files.
 
 ## License
 

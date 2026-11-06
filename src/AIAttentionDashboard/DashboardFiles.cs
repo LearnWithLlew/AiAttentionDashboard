@@ -15,7 +15,7 @@ internal sealed class DashboardFiles(string workingFolder)
 
     public void EnsureHtmlExists()
     {
-        Directory.CreateDirectory(Folder);
+        EnsureFolderExists();
         if (!File.Exists(HtmlPath))
         {
             File.WriteAllText(HtmlPath, StubHtml);
@@ -24,8 +24,19 @@ internal sealed class DashboardFiles(string workingFolder)
 
     public void WriteServerInfo(ServerInfo server)
     {
-        Directory.CreateDirectory(Folder);
+        EnsureFolderExists();
         File.WriteAllText(ServerInfoPath, JsonSerializer.Serialize(server));
+    }
+
+    /// <summary>The folder ignores itself, so the dashboard's files never show up in the user's repo.</summary>
+    private void EnsureFolderExists()
+    {
+        Directory.CreateDirectory(Folder);
+        var gitignore = Path.Combine(Folder, ".gitignore");
+        if (!File.Exists(gitignore))
+        {
+            File.WriteAllText(gitignore, "*\n");
+        }
     }
 
     public ServerInfo? ReadServerInfo() =>

@@ -10,6 +10,7 @@
 All under `.local/aiattentiondashboard/`, relative to the working folder.
 
 - `dashboard.html`: content Claude writes; the tool creates a stub only if it's missing.
+- `.gitignore`: contains `*`, so the folder ignores itself in the user's repo; created with the folder, never overwritten.
 - `server.json`: the server's port and process ID; present and answering `/ping` means "running".
   The server writes it on startup; only the CLI deletes it, so an exiting server can't delete a newer server's file.
   `--stop` waits for that process to exit, so the executable is unlocked when it returns.
