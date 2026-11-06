@@ -27,7 +27,8 @@ internal sealed class DashboardServer : IAsyncDisposable
 
     public static async Task<DashboardServer> StartAsync(DashboardFiles files)
     {
-        var builder = WebApplication.CreateSlimBuilder();
+        // Watching config files for changes is slow to set up on macOS, and the dashboard has no config to reload.
+        var builder = WebApplication.CreateSlimBuilder(new WebApplicationOptions { Args = ["--hostBuilder:reloadConfigOnChange=false"] });
         builder.Logging.ClearProviders();
         builder.WebHost.UseUrls("http://127.0.0.1:0");
         var app = builder.Build();
