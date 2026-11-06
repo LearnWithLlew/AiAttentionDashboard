@@ -28,6 +28,14 @@ internal sealed class FakeDashboardEnvironment : IDashboardEnvironment
         return Task.FromResult(PagesToReload);
     }
 
+    public int ConnectedPages { get; set; }
+
+    public Task<int> CountConnectedPagesAsync(ServerInfo server)
+    {
+        Calls.Add($"CountConnectedPages(port {server.Port})");
+        return Task.FromResult(ConnectedPages);
+    }
+
     public bool ServerStops { get; set; }
 
     public Task<bool> RequestStopAsync(ServerInfo server)

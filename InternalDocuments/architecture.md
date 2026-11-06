@@ -19,13 +19,14 @@ Kestrel on `127.0.0.1`, random port.
 - `GET /`: `dashboard.html` with a live-reload script injected before `</body>`.
 - `GET /events`: Server-Sent Events stream the page listens on.
 - `POST /refresh`: sends `refresh` to every open page and returns how many there were.
+- `GET /pages`: how many pages are connected; `--start` skips opening a browser when this is above 0.
 - `POST /stop`: shuts the server down.
 - `GET /ping`: health check.
 
 ## Code
 
 - `CommandLineParser`: System.CommandLine options, `--start`/`--refresh`/`--stop`/`--skill` logic.
-- `IDashboardEnvironment`: the side-effect boundary (launch server, ping, refresh, stop, open browser).
+- `IDashboardEnvironment`: the side-effect boundary (launch server, ping, count pages, refresh, stop, open browser).
 - `RealDashboardEnvironment`: the production implementation.
 - `DashboardServer`: Kestrel app and SSE broadcast.
 - `DashboardFiles`: paths, stub HTML, `server.json`.

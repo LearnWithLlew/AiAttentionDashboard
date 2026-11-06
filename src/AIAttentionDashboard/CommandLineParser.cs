@@ -59,10 +59,14 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         {
             server = await environment.LaunchServerAsync();
         }
-        environment.OpenBrowser(server!.BaseUri);
+        var pageAlreadyOpen = alreadyRunning && await environment.CountConnectedPagesAsync(server!) > 0;
+        if (!pageAlreadyOpen)
+        {
+            environment.OpenBrowser(server!.BaseUri);
+        }
 
         output.WriteLine($"""
-            The AI Attention Dashboard is {(alreadyRunning ? "already running" : "started")} at {server.BaseUri}
+            The AI Attention Dashboard is {(alreadyRunning ? "already running" : "started")} at {server!.BaseUri}{(pageAlreadyOpen ? " and already open in a browser" : "")}
             It shows the HTML file at: {files.HtmlPath}
             Write high-level action items for the user into that file, then run `aiattentiondashboard --refresh` to reload the browser.
             """);

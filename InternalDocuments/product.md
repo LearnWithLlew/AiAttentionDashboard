@@ -37,6 +37,7 @@ aiattentiondashboard --start
 ```
 
 This starts in this folder if it's not already started, and launches the HTML page in a browser.
+If a browser tab is already showing the dashboard, it reuses that tab instead of opening a new one.
 
 It also gives a small prompt back to Claude so that it understands how to get more information about where the HTML file it reads comes from.
 

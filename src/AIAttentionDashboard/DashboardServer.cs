@@ -41,6 +41,7 @@ internal sealed class DashboardServer : IAsyncDisposable
         app.MapGet("/ping", () => "pong");
         app.MapGet("/events", context => server!.StreamEventsAsync(context));
         app.MapPost("/refresh", () => Results.Ok(server!.Broadcast()));
+        app.MapGet("/pages", () => Results.Ok(server!.listeners.Count));
         app.MapPost("/stop", () =>
         {
             app.Lifetime.StopApplication();

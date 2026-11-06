@@ -34,6 +34,17 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Start_WhenPageAlreadyOpen_DoesNotOpenAnother()
+    {
+        files.EnsureHtmlExists();
+        files.WriteServerInfo(6000);
+        environment.ServerResponding = true;
+        environment.ConnectedPages = 1;
+
+        await Verify(await Run("--start"));
+    }
+
+    [Fact]
     public async Task Start_WhenServerInfoIsStale_LaunchesServer()
     {
         files.EnsureHtmlExists();

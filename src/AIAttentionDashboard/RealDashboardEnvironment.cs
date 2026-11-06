@@ -81,6 +81,22 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
         }
     }
 
+    public async Task<int> CountConnectedPagesAsync(ServerInfo server)
+    {
+        try
+        {
+            return int.Parse(await Http.GetStringAsync(new Uri(server.BaseUri, "pages")));
+        }
+        catch (HttpRequestException)
+        {
+            return 0;
+        }
+        catch (TaskCanceledException)
+        {
+            return 0;
+        }
+    }
+
     public async Task<bool> RequestStopAsync(ServerInfo server)
     {
         try

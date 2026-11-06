@@ -60,4 +60,17 @@ public class DashboardServerTests : IAsyncLifetime
         Assert.Equal("1", reloaded);
         Assert.Equal("event: refresh", await reader.ReadLineAsync(timeout.Token));
     }
+
+    [Fact]
+    public async Task Pages_CountsConnectedPages()
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        Assert.Equal("0", await http.GetStringAsync(new Uri(baseUri, "pages"), timeout.Token));
+
+        using var response = await http.GetAsync(new Uri(baseUri, "events"), HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+        using var reader = new StreamReader(await response.Content.ReadAsStreamAsync(timeout.Token));
+        await reader.ReadLineAsync(timeout.Token); // ": connected"
+
+        Assert.Equal("1", await http.GetStringAsync(new Uri(baseUri, "pages"), timeout.Token));
+    }
 }
