@@ -61,7 +61,7 @@ Stops the server.
 --size
 ```
 
-Tells the size of the current browser window.
+Queries the size of the current window, so Claude can generate a page that fits in that space.
 
 ```
 --help
