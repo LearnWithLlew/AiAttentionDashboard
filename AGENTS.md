@@ -20,6 +20,11 @@ Information about this project found in @InternalDocuments/project.md
 
 Never use Claude Code's persistent memory system for this project. Durable guidance (conventions, process corrections, preferences) belongs in-repo instead — this file, `InternalDocuments/`, or a skill — so it's visible in version control and to every contributor, not just stored privately for one user.
 
+## Attention dashboard
+When the dashboard is running, keep its status current, following `aiattentiondashboard --skill`.
+Switch to Working before you start a task, to Waiting the moment you ask a question, and to Done when you finish.
+Never leave a stale question or status showing while you work on something else.
+
 ## Decisions
 When you need input on a decision:
 - First, pick the option you think is best and propose it. Start that message with `⭐ 1: `
