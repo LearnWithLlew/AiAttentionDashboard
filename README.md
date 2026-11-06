@@ -6,6 +6,8 @@ Instead of scrolling the terminal to find out whether Claude is working, waiting
 The agent writes an HTML file and the dashboard reloads to show it.
 The tool only serves and refreshes the page; the agent decides what goes on it.
 
+![The dashboard (middle right) showing Claude's checklist next to the Claude Code terminal](https://raw.githubusercontent.com/LearnWithLlew/AiAttentionDashboard/master/docs/images/AiAttentionDashboard.screenshot.png)
+
 ## Install
 
 Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
