@@ -56,6 +56,7 @@ Refreshes the HTML page in the browser to show the latest content.
 ```
 
 Stops the server.
+Any open dashboard tab notices the server is gone and closes itself.
 
 
 ```

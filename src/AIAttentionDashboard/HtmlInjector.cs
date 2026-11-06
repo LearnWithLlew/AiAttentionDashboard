@@ -6,7 +6,14 @@ internal static class HtmlInjector
     internal const string ReloadScript = """
         <script>
         {
-            new EventSource('/events').addEventListener('refresh', () => location.reload());
+            const events = new EventSource('/events');
+            events.addEventListener('refresh', () => location.reload());
+            const closeIfServerGone = () => fetch('/ping').catch(() => {
+                events.close();
+                window.close();
+                document.body.innerHTML = '<p>The dashboard server has stopped. You can close this tab.</p>';
+            });
+            events.addEventListener('error', () => setTimeout(closeIfServerGone, 1000));
             const reportSize = () => fetch('/size', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

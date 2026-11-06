@@ -34,7 +34,7 @@ Kestrel on `127.0.0.1`, random port.
 - `RealDashboardEnvironment`: the production implementation.
 - `DashboardServer`: Kestrel app and SSE broadcast.
 - `DashboardFiles`: paths, stub HTML, `server.json`.
-- `HtmlInjector`: adds the script that reloads the page and reports its size.
+- `HtmlInjector`: adds the script that reloads the page, reports its size, and closes the tab once the server is gone.
 - `PageSize`: the page's viewport size in CSS pixels.
 - `SkillPage`: reads the embedded `SkillPage.md` that `--skill` prints.
 
