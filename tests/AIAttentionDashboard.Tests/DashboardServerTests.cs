@@ -50,6 +50,22 @@ public class DashboardServerTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Stop_WithConnectedPage_EndsItsStreamAndShutsDownPromptly()
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        using var events = await http.GetAsync(new Uri(baseUri, "events"), HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+        using var reader = new StreamReader(await events.Content.ReadAsStreamAsync(timeout.Token));
+        await reader.ReadLineAsync(timeout.Token); // ": connected"
+        await reader.ReadLineAsync(timeout.Token); // blank line ending the comment event
+
+        await http.PostAsync(new Uri(baseUri, "stop"), null, timeout.Token);
+
+        var shutdown = server.WaitForShutdownAsync();
+        Assert.Same(shutdown, await Task.WhenAny(shutdown, Task.Delay(TimeSpan.FromSeconds(5), timeout.Token)));
+        Assert.Null(await reader.ReadLineAsync(timeout.Token));
+    }
+
+    [Fact]
     public async Task Refresh_SendsEventToConnectedPage()
     {
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));

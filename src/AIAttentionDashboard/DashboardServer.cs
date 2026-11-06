@@ -53,6 +53,9 @@ internal sealed class DashboardServer : IAsyncDisposable
             return Results.Ok();
         });
 
+        // Open event streams never end on their own, so end them, or shutdown waits for its drain timeout.
+        app.Lifetime.ApplicationStopping.Register(() => server?.EndAllStreams());
+
         await app.StartAsync();
         var address = app.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>()!.Addresses.First();
         server = new DashboardServer(app, new Uri(address).Port);
@@ -73,6 +76,14 @@ internal sealed class DashboardServer : IAsyncDisposable
             }
         }
         return count;
+    }
+
+    private void EndAllStreams()
+    {
+        foreach (var listener in listeners.Keys)
+        {
+            listener.Writer.TryComplete();
+        }
     }
 
     private async Task StreamEventsAsync(HttpContext context)
