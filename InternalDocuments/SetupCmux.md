@@ -28,18 +28,23 @@ Note the pane's `ref` (for example `pane:20`) and its terminal surface (for exam
 
 ## 3. Start the server in that pane
 
-Send the command to the pane's terminal:
+Install the tool once, if you haven't:
 
 ```bash
-cmux send --workspace workspace:8 --surface surface:22 'dotnet run --project src/AIAttentionDashboard -- --serve
+dotnet tool install --global AIAttentionDashboard
+```
+
+Then send the command to the pane's terminal, from the folder whose dashboard you want (here, the repo root):
+
+```bash
+cmux send --workspace workspace:8 --surface surface:22 'cd ~/Github/AiAttentionDashboard && aiattentiondashboard --serve
 '
 ```
 
 The trailing newline inside the quotes presses Enter.
 
-`dotnet run` runs the server from `src/AIAttentionDashboard/`, not the repo root.
-So the dashboard's files (`server.json`, `dashboard.html`) are in `src/AIAttentionDashboard/.local/aiattentiondashboard/`.
-Run the other CLI commands from that folder, or they won't find the server.
+The dashboard's files (`server.json`, `dashboard.html`) are in `.local/aiattentiondashboard/` under that folder.
+Run the other commands from the same folder, or they won't find the server.
 
 `--serve` does not write `server.json` until the server is up, and does not print its port.
 Get the port from `server.json`, or from:
@@ -67,16 +72,29 @@ If the browser tab does not show up, the cmux browser is probably still disabled
 
 ## 5. Use it
 
-From `src/AIAttentionDashboard/`:
+From the folder you started the server in:
 
-- `dotnet run -- --size` prints the page size, which also confirms the page is connected.
-- `dotnet run -- --refresh` reloads the page after you edit `dashboard.html`.
-- `dotnet run -- --stop` stops the server, and the dashboard tab closes itself.
+- `aiattentiondashboard --size` prints the page size, which also confirms the page is connected.
+- `aiattentiondashboard --refresh` reloads the page after you edit `dashboard.html`.
+- `aiattentiondashboard --stop` stops the server, and the dashboard tab closes itself.
 
 Ctrl-C in the server's terminal tab also stops it.
 
-## Why not `--start`?
+## Why `--serve` and not `--start`?
+
+`--serve` is hidden from `--help`, but it runs the server in the pane's terminal, where you can see it and stop it.
 
 `--start` launches the server and opens the page in your system browser, not in cmux.
 If a page is already connected, `--start` skips opening a browser.
 So you can open the cmux tab first, as above, and `--start` will still report the running server.
+
+## Testing local changes
+
+To try unreleased code, run the server from source instead:
+
+```bash
+dotnet run --project src/AIAttentionDashboard -- --serve
+```
+
+`dotnet run` runs from `src/AIAttentionDashboard/`, so the files are in `src/AIAttentionDashboard/.local/aiattentiondashboard/`.
+Run the other commands as `dotnet run -- <option>` from that folder.
