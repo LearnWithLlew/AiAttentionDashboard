@@ -74,7 +74,9 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         output.WriteLine($"""
             The AI Attention Dashboard is {(alreadyRunning ? "already running" : "started")} at {server!.BaseUri}{(pageAlreadyOpen ? " and already open in a browser" : "")}
             It shows the HTML file at: {files.HtmlPath}
-            Write high-level action items for the user into that file, then run `aiattentiondashboard --refresh` to reload the browser.
+            Keep it current by delegating it to a background subagent on a small, fast model.
+            Tell the subagent to run `aiattentiondashboard --skill` and follow it, then message it each time you start, ask, or finish something.
+            If you are that subagent, or can't start one, run `aiattentiondashboard --skill` and follow it yourself.
             """);
         return 0;
     }

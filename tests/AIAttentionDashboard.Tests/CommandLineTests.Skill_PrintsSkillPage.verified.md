@@ -3,6 +3,32 @@
 Use this dashboard to tell the user what needs their attention.
 The user glances at it instead of reading the terminal.
 
+## Delegate to a subagent
+
+Keeping the dashboard current is easy to forget while you work, so hand it to a subagent.
+
+### If you are the main agent
+
+1. Run `aiattentiondashboard --start`.
+1. Start a background subagent on a small, fast model (in Claude Code, Haiku).
+   Tell it: "You own the AI Attention Dashboard. Run `aiattentiondashboard --skill` and follow it as the dashboard subagent. I'll message you each time my state changes."
+1. Send it a one-line message every time your state changes:
+   - Before you start a task: "Working: what you are doing".
+   - The moment you ask the user something: "Waiting: the question, and where to answer".
+   - When you finish: "Done: what you finished".
+   - Include checklist progress when you have a checklist.
+1. Run `aiattentiondashboard --stop` when the session is over.
+
+If you can't start subagents, follow the workflow below yourself.
+
+### If you are the dashboard subagent
+
+- The main agent already started the dashboard, so skip `--start` and follow the rest of the workflow and this page.
+- Turn each message into the page: set the state, show what matters, and remove anything stale.
+- Never ask the user anything; you only show what the main agent tells you.
+- Reply to the main agent with one short line, so its context stays small.
+- Leave `--stop` to the main agent.
+
 ## Workflow
 
 1. Run `aiattentiondashboard --start`.
