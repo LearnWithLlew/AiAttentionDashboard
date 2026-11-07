@@ -1,5 +1,11 @@
 # ![](https://raw.githubusercontent.com/LearnWithLlew/AiAttentionDashboard/master/icon.png) AI Attention Dashboard
 
+[![build-and-test](https://github.com/LearnWithLlew/AiAttentionDashboard/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/LearnWithLlew/AiAttentionDashboard/actions/workflows/build-and-test.yml)
+[![Check Markdown links](https://github.com/LearnWithLlew/AiAttentionDashboard/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/LearnWithLlew/AiAttentionDashboard/actions/workflows/markdown-link-check.yml)
+[![publish](https://github.com/LearnWithLlew/AiAttentionDashboard/actions/workflows/publish.yml/badge.svg)](https://github.com/LearnWithLlew/AiAttentionDashboard/actions/workflows/publish.yml)
+[![NuGet](https://img.shields.io/nuget/v/AIAttentionDashboard.svg)](https://www.nuget.org/packages/AIAttentionDashboard)
+[![NuGet downloads](https://img.shields.io/nuget/dt/AIAttentionDashboard.svg)](https://www.nuget.org/packages/AIAttentionDashboard)
+
 A small browser window where your AI coding agent tells you what needs your attention.
 Instead of scrolling the terminal to find out whether Claude is working, waiting on you, or done, you glance at the dashboard.
 
