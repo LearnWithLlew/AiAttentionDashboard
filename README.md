@@ -21,6 +21,13 @@ Download the archive for your platform from the [latest release](https://github.
 
 The binaries are unsigned, so Windows SmartScreen and macOS Gatekeeper may warn you the first time you run one.
 
+On macOS, a binary downloaded in a browser can show "Apple could not verify 'aiattentiondashboard' is free of malware" and refuse to open.
+To allow it, either open **System Settings → Privacy & Security** and click **Open Anyway**, or clear the quarantine flag in Terminal, replacing the path with where you extracted the binary:
+
+```bash
+xattr -dr com.apple.quarantine /path/to/aiattentiondashboard
+```
+
 ### .NET tool
 
 Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
