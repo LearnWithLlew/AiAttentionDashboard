@@ -14,6 +14,15 @@ The tool only serves and refreshes the page; the agent decides what goes on it.
 
 ## Install
 
+### Standalone download
+
+No .NET needed.
+Download the archive for your platform from the [latest release](https://github.com/LearnWithLlew/AiAttentionDashboard/releases/latest), extract it, and put `aiattentiondashboard` on your `PATH`.
+
+The binaries are unsigned, so Windows SmartScreen and macOS Gatekeeper may warn you the first time you run one.
+
+### .NET tool
+
 Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
 ```bash
