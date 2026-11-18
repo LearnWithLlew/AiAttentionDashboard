@@ -36,29 +36,7 @@ internal sealed class DashboardServer : IAsyncDisposable
         var app = builder.Build();
 
         DashboardServer? server = null;
-        app.MapGet("/", async context =>
-        {
-            files.EnsureHtmlExists();
-            context.Response.ContentType = "text/html; charset=utf-8";
-            await context.Response.WriteAsync(HtmlInjector.Inject(await File.ReadAllTextAsync(files.HtmlPath)));
-        });
-        app.MapGet("/ping", () => "pong");
-        app.MapGet("/events", context => server!.StreamEventsAsync(context));
-        app.MapPost("/refresh", () => Results.Ok(server!.Broadcast()));
-        app.MapGet("/pages", () => Results.Ok(server!.listeners.Count));
-        app.MapPost("/size", (PageSize size) => server!.pageSize = size);
-        app.MapGet("/size", async () =>
-        {
-            await server!.WaitForReloadingPagesAsync();
-            return server.listeners.IsEmpty || server.pageSize is null
-                ? Results.NotFound()
-                : Results.Ok(server.pageSize);
-        });
-        app.MapPost("/stop", () =>
-        {
-            app.Lifetime.StopApplication();
-            return Results.Ok();
-        });
+        MapRoutes(app, files, () => server!);
 
         // Open event streams never end on their own, so end them, or shutdown waits for its drain timeout.
         app.Lifetime.ApplicationStopping.Register(() => server?.EndAllStreams());
@@ -67,6 +45,33 @@ internal sealed class DashboardServer : IAsyncDisposable
         var address = app.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>()!.Addresses.First();
         server = new DashboardServer(app, new Uri(address).Port);
         return server;
+    }
+
+    private static void MapRoutes(WebApplication app, DashboardFiles files, Func<DashboardServer> server)
+    {
+        app.MapGet("/", async context =>
+        {
+            files.EnsureHtmlExists();
+            context.Response.ContentType = "text/html; charset=utf-8";
+            await context.Response.WriteAsync(HtmlInjector.Inject(await File.ReadAllTextAsync(files.HtmlPath)));
+        });
+        app.MapGet("/ping", () => "pong");
+        app.MapGet("/events", context => server().StreamEventsAsync(context));
+        app.MapPost("/refresh", () => Results.Ok(server().Broadcast()));
+        app.MapGet("/pages", () => Results.Ok(server().listeners.Count));
+        app.MapPost("/size", (PageSize size) => server().pageSize = size);
+        app.MapGet("/size", async () =>
+        {
+            await server().WaitForReloadingPagesAsync();
+            return server().listeners.IsEmpty || server().pageSize is null
+                ? Results.NotFound()
+                : Results.Ok(server().pageSize);
+        });
+        app.MapPost("/stop", () =>
+        {
+            app.Lifetime.StopApplication();
+            return Results.Ok();
+        });
     }
 
     public Task WaitForShutdownAsync() => app.WaitForShutdownAsync();
