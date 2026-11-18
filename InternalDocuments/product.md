@@ -111,4 +111,11 @@ See `flags/flag.install.md`.
 --speak
 ```
 
+Planned, not built yet.
+
 Allows Claude to speak out loud the content of the HTML page.
+
+- On Mac, pipe the text to `say`.
+- On Windows, use PowerShell's speech synthesizer.
+- A hush setting silences it until someone turns it back on.
+  While hushed, `--speak` does nothing.
