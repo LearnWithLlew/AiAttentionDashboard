@@ -24,6 +24,13 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
         }
     }
 
+    // STANDALONE is defined when publishing the single-file download (see the .csproj).
+#if STANDALONE
+    public bool IsStandalone => true;
+#else
+    public bool IsStandalone => false;
+#endif
+
     public async Task<string?> GetLatestVersionAsync()
     {
         try

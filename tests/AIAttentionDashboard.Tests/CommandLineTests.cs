@@ -189,6 +189,15 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Status_WhenNewerVersionIsOut_AndStandalone_SaysWhereToDownload()
+    {
+        environment.LatestVersion = "999.0.0";
+        environment.IsStandalone = true;
+
+        await Verify(await Run("--status"));
+    }
+
+    [Fact]
     public async Task Status_WhenOnLatestVersion_SaysNothingAboutUpdating()
     {
         environment.LatestVersion = CommandLineParser.Version;

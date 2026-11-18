@@ -137,7 +137,9 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         var latest = await environment.GetLatestVersionAsync();
         if (IsNewer(latest, Version))
         {
-            output.WriteLine($"Version {latest} is available. Update with `dotnet tool update --global AIAttentionDashboard`.");
+            output.WriteLine(environment.IsStandalone
+                ? $"Version {latest} is available. Download it from https://github.com/LearnWithLlew/AiAttentionDashboard/releases/latest and replace the `aiattentiondashboard` on your PATH."
+                : $"Version {latest} is available. Update with `dotnet tool update --global AIAttentionDashboard`.");
         }
         output.WriteLine(running
             ? $"""

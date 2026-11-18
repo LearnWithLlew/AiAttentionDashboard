@@ -1,0 +1,12 @@
+﻿{
+  Output:
+AI Attention Dashboard version {Version}
+Version 999.0.0 is available. Download it from https://github.com/LearnWithLlew/AiAttentionDashboard/releases/latest and replace the `aiattentiondashboard` on your PATH.
+The AI Attention Dashboard is not running for this directory.
+To use it, run `aiattentiondashboard --start`.
+,
+  Error: ,
+  Calls: [
+    GetLatestVersion
+  ]
+}

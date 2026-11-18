@@ -19,6 +19,9 @@ internal interface IDashboardEnvironment
     /// <returns>The size an open page last reported, or null if no page is open or the server could not be reached.</returns>
     Task<PageSize?> RequestPageSizeAsync(ServerInfo server);
 
+    /// <summary>True for the standalone download, false for the .NET tool (or running from source).</summary>
+    bool IsStandalone { get; }
+
     /// <returns>The newest released version on NuGet, or null if NuGet could not be reached.</returns>
     Task<string?> GetLatestVersionAsync();
 

@@ -36,6 +36,11 @@
     <None Include="../../icon.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
+  <!-- The standalone download is published as a single file; let the code know so it can say how to update. -->
+  <PropertyGroup Condition="'$(PublishSingleFile)' == 'true'">
+    <DefineConstants>$(DefineConstants);STANDALONE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="AIAttentionDashboard.Tests" />
   </ItemGroup>
