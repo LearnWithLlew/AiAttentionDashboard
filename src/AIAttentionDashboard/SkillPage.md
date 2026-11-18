@@ -3,6 +3,18 @@
 Use this dashboard to tell the user what needs their attention.
 The user glances at it instead of reading the terminal.
 
+## Prime directive
+
+Before you do anything, tell the dashboard what you are about to do.
+The moment you finish, tell it again.
+No exceptions, even for small or quick steps.
+
+- Right before you start: "Working: what you are about to do".
+- Right after you finish: "Done: what you finished", or "Waiting: the question, and where to answer".
+
+The main agent sends these to the dashboard subagent and never talks about the dashboard to the user.
+The subagent keeps the page current.
+
 ## Delegate to a subagent
 
 Keeping the dashboard current is easy to forget while you work, so hand it to a subagent.
@@ -12,11 +24,9 @@ Keeping the dashboard current is easy to forget while you work, so hand it to a 
 1. Run `aiattentiondashboard --start`.
 1. Start a background subagent on a small, fast model (in Claude Code, Haiku).
    Tell it: "You own the AI Attention Dashboard. Run `aiattentiondashboard --skill` and follow it as the dashboard subagent. I'll message you each time my state changes."
-1. Send it a one-line message every time your state changes:
-   - Before you start a task: "Working: what you are doing".
-   - The moment you ask the user something: "Waiting: the question, and where to answer".
-   - When you finish: "Done: what you finished".
-   - Include checklist progress when you have a checklist.
+1. Follow the prime directive: send it a one-line message right before you start anything, and right after you finish.
+   Include checklist progress when you have a checklist.
+1. Don't mention the dashboard or its status to the user; that's the subagent's job.
 1. Run `aiattentiondashboard --stop` when the session is over.
 
 If you can't start subagents, follow the workflow below yourself.
