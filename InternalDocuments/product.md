@@ -119,3 +119,4 @@ Allows Claude to speak out loud the content of the HTML page.
 - On Windows, use PowerShell's speech synthesizer.
 - A hush setting silences it until someone turns it back on.
   While hushed, `--speak` does nothing.
+  Hush applies to the current folder only, like the rest of the dashboard.
