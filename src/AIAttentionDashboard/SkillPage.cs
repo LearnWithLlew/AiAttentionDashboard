@@ -6,6 +6,23 @@ internal static class SkillPage
     public static string Read() => EmbeddedText.Read("SkillPage.md");
 }
 
+/// <summary>Instructions that let an AI agent install the /aiattentiondashboard command, its own way.</summary>
+internal static class InstallPage
+{
+    public static string Read() => $"""
+        # Install the /aiattentiondashboard command
+
+        1. Ask the user: install it for this directory only, or globally?
+        1. Install a command or skill named `aiattentiondashboard`, the way you (the AI agent) do it.
+           Describe it as: "Start the AI Attention Dashboard, or do nothing if it is already running."
+           Use everything below the line as its instructions.
+
+        ---
+
+        {EmbeddedText.Read("startup.process.md")}
+        """;
+}
+
 /// <summary>Text files embedded in the tool when it is built.</summary>
 internal static class EmbeddedText
 {

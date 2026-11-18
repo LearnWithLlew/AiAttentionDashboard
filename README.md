@@ -43,6 +43,7 @@ Run these from your project's folder:
 | `aiattentiondashboard --stop` | Stops the dashboard. |
 | `aiattentiondashboard --status` | Prints the version, whether the dashboard is running here, and what to do next. |
 | `aiattentiondashboard --skill` | Prints instructions for the AI agent on how to use the dashboard well. |
+| `aiattentiondashboard --install` | Prints instructions for your AI agent to install the `/aiattentiondashboard` command. |
 
 The quickest way to get going is to tell your agent:
 

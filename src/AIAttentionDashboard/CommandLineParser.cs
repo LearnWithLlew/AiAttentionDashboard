@@ -21,6 +21,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         var size = new Option<bool>("--size") { Description = "Print the dashboard page's size, so you can make content that fits." };
         var status = new Option<bool>("--status") { Description = "Say whether the dashboard is running here, and what to do next." };
         var skill = new Option<bool>("--skill") { Description = "Print a skill page for AI agents on how to use the dashboard well." };
+        var install = new Option<bool>("--install") { Description = "Print instructions for an AI agent to install the /aiattentiondashboard command." };
         var serve = new Option<bool>(ServeOptionName) { Description = "Run the dashboard server in this process.", Hidden = true };
 
         var root = new RootCommand("Shows high-level action items for the user in a small browser window.");
@@ -30,6 +31,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         root.Options.Add(size);
         root.Options.Add(status);
         root.Options.Add(skill);
+        root.Options.Add(install);
         root.Options.Add(serve);
         root.SetAction(async (parseResult, cancellationToken) =>
         {
@@ -62,7 +64,12 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
                 output.Write(SkillPage.Read());
                 return 0;
             }
-            error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, --size, --status, or --skill, or --help for usage.");
+            if (parseResult.GetValue(install))
+            {
+                output.Write(InstallPage.Read());
+                return 0;
+            }
+            error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, --size, --status, --skill, or --install, or --help for usage.");
             return 1;
         });
 

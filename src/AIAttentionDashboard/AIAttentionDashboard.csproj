@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="SkillPage.md" LogicalName="SkillPage.md" />
+    <!-- Embedded straight from the repo's doc, so editing it changes what the next release installs. -->
+    <EmbeddedResource Include="../../InternalDocuments/processes/aiattentiondashboard.startup.process.md" LogicalName="startup.process.md" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
     <None Include="../../icon.png" Pack="true" PackagePath="/" />
   </ItemGroup>
