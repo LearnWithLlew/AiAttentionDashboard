@@ -6,6 +6,7 @@ To use it, run `aiattentiondashboard --start`.
 ,
   Error: ,
   Calls: [
-    IsServerResponding(port 6000)
+    IsServerResponding(port 6000),
+    GetLatestVersion
   ]
 }

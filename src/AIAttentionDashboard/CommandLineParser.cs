@@ -127,6 +127,11 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         var server = files.ReadServerInfo();
         var running = server is not null && await environment.IsServerRespondingAsync(server);
         output.WriteLine($"AI Attention Dashboard version {Version}");
+        var latest = await environment.GetLatestVersionAsync();
+        if (IsNewer(latest, Version))
+        {
+            output.WriteLine($"Version {latest} is available. Update with `dotnet tool update --global AIAttentionDashboard`.");
+        }
         output.WriteLine(running
             ? $"""
               The AI Attention Dashboard is running at {server!.BaseUri}
@@ -139,6 +144,11 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
               """);
         return 0;
     }
+
+    private static bool IsNewer(string? candidate, string current) =>
+        System.Version.TryParse(candidate, out var candidateVersion)
+        && System.Version.TryParse(current.Split('-')[0], out var currentVersion)
+        && candidateVersion > currentVersion;
 
     private async Task<int> StopAsync(TextWriter output)
     {

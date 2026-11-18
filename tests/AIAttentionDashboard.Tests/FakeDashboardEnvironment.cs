@@ -44,6 +44,14 @@ internal sealed class FakeDashboardEnvironment : IDashboardEnvironment
         return Task.FromResult(PageSize);
     }
 
+    public string? LatestVersion { get; set; }
+
+    public Task<string?> GetLatestVersionAsync()
+    {
+        Calls.Add("GetLatestVersion");
+        return Task.FromResult(LatestVersion);
+    }
+
     public bool ServerStops { get; set; }
 
     public Task<bool> RequestStopAsync(ServerInfo server)

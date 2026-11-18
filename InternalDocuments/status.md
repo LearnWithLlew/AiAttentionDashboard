@@ -5,6 +5,7 @@
 ## What it shows
 
 - The version of the AI Attention Dashboard.
+- How to update, if NuGet has a newer version.
 - Whether a dashboard server is running for the current directory.
 
 ## What it tells Claude

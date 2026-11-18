@@ -1,0 +1,11 @@
+﻿{
+  Output:
+AI Attention Dashboard version {Version}
+The AI Attention Dashboard is not running for this directory.
+To use it, run `aiattentiondashboard --start`.
+,
+  Error: ,
+  Calls: [
+    GetLatestVersion
+  ]
+}

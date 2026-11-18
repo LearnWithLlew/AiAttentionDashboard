@@ -24,6 +24,26 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
         }
     }
 
+    public async Task<string?> GetLatestVersionAsync()
+    {
+        try
+        {
+            var index = await Http.GetFromJsonAsync<NuGetVersionIndex>("https://api.nuget.org/v3-flatcontainer/aiattentiondashboard/index.json");
+            // Versions are listed oldest first; skip prereleases such as "1.0.0-beta".
+            return index?.Versions.LastOrDefault(v => !v.Contains('-'));
+        }
+        catch (HttpRequestException)
+        {
+            return null;
+        }
+        catch (TaskCanceledException)
+        {
+            return null;
+        }
+    }
+
+    private sealed record NuGetVersionIndex(string[] Versions);
+
     public async Task<ServerInfo> LaunchServerAsync()
     {
         files.DeleteServerInfo();

@@ -181,6 +181,22 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Status_WhenNewerVersionIsOut_SaysHowToUpdate()
+    {
+        environment.LatestVersion = "999.0.0";
+
+        await Verify(await Run("--status"));
+    }
+
+    [Fact]
+    public async Task Status_WhenOnLatestVersion_SaysNothingAboutUpdating()
+    {
+        environment.LatestVersion = CommandLineParser.Version;
+
+        await Verify(await Run("--status"));
+    }
+
+    [Fact]
     public async Task Skill_PrintsSkillPage()
     {
         var output = new StringWriter();

@@ -1,0 +1,12 @@
+﻿{
+  Output:
+AI Attention Dashboard version {Version}
+Version 999.0.0 is available. Update with `dotnet tool update --global AIAttentionDashboard`.
+The AI Attention Dashboard is not running for this directory.
+To use it, run `aiattentiondashboard --start`.
+,
+  Error: ,
+  Calls: [
+    GetLatestVersion
+  ]
+}
