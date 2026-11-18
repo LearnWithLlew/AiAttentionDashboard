@@ -157,6 +157,30 @@ public class CommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task Status_WhenRunning_PointsToSkill()
+    {
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
+        environment.ServerResponding = true;
+
+        await Verify(await Run("--status"));
+    }
+
+    [Fact]
+    public async Task Status_WhenNeverStarted_PointsToStart()
+    {
+        await Verify(await Run("--status"));
+    }
+
+    [Fact]
+    public async Task Status_WhenServerInfoIsStale_PointsToStart()
+    {
+        files.WriteServerInfo(new ServerInfo(6000, ProcessId: 1234));
+        environment.ServerResponding = false;
+
+        await Verify(await Run("--status"));
+    }
+
+    [Fact]
     public async Task Skill_PrintsSkillPage()
     {
         var output = new StringWriter();

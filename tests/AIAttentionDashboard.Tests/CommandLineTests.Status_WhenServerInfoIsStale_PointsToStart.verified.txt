@@ -1,0 +1,10 @@
+﻿{
+  Output:
+The AI Attention Dashboard is not running for this directory.
+To use it, run `aiattentiondashboard --start`.
+,
+  Error: ,
+  Calls: [
+    IsServerResponding(port 6000)
+  ]
+}

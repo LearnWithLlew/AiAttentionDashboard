@@ -1,0 +1,11 @@
+﻿{
+  Output:
+The AI Attention Dashboard is running at http://127.0.0.1:6000/
+To keep it current, start a background subagent on a small, fast model.
+Tell it to run `aiattentiondashboard --skill` and follow it.
+,
+  Error: ,
+  Calls: [
+    IsServerResponding(port 6000)
+  ]
+}

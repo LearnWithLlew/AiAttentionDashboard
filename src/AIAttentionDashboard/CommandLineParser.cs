@@ -12,6 +12,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         var refresh = new Option<bool>("--refresh") { Description = "Reload the dashboard page in the browser." };
         var stop = new Option<bool>("--stop") { Description = "Stop the dashboard server." };
         var size = new Option<bool>("--size") { Description = "Print the dashboard page's size, so you can make content that fits." };
+        var status = new Option<bool>("--status") { Description = "Say whether the dashboard is running here, and what to do next." };
         var skill = new Option<bool>("--skill") { Description = "Print a skill page for AI agents on how to use the dashboard well." };
         var serve = new Option<bool>(ServeOptionName) { Description = "Run the dashboard server in this process.", Hidden = true };
 
@@ -20,6 +21,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
         root.Options.Add(refresh);
         root.Options.Add(stop);
         root.Options.Add(size);
+        root.Options.Add(status);
         root.Options.Add(skill);
         root.Options.Add(serve);
         root.SetAction(async (parseResult, cancellationToken) =>
@@ -44,12 +46,16 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
             {
                 return await SizeAsync(output, error);
             }
+            if (parseResult.GetValue(status))
+            {
+                return await StatusAsync(output);
+            }
             if (parseResult.GetValue(skill))
             {
                 output.Write(SkillPage.Read());
                 return 0;
             }
-            error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, --size, or --skill, or --help for usage.");
+            error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, --size, --status, or --skill, or --help for usage.");
             return 1;
         });
 
@@ -106,6 +112,23 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
             return 1;
         }
         output.WriteLine($"The dashboard page is {size.Width} wide and {size.Height} tall, in CSS pixels. Make content that fits without scrolling.");
+        return 0;
+    }
+
+    private async Task<int> StatusAsync(TextWriter output)
+    {
+        var server = files.ReadServerInfo();
+        var running = server is not null && await environment.IsServerRespondingAsync(server);
+        output.WriteLine(running
+            ? $"""
+              The AI Attention Dashboard is running at {server!.BaseUri}
+              To keep it current, start a background subagent on a small, fast model.
+              Tell it to run `aiattentiondashboard --skill` and follow it.
+              """
+            : """
+              The AI Attention Dashboard is not running for this directory.
+              To use it, run `aiattentiondashboard --start`.
+              """);
         return 0;
     }
 
