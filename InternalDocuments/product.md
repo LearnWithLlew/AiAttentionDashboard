@@ -2,11 +2,13 @@
 
 ## What it is
 
-This is a CLI meant for Claude that allows for three main things:
+This is a CLI meant for Claude that allows for these main things:
 
 1. Opens and refreshes an HTML page in a browser
 1. Gives a mechanical help page for Claude
 1. Gives a skill help page for Claude on how to interact with it
+1. Reports its status and version, and how to update
+1. Lets Claude install a `/aiattentiondashboard` command that starts it all
 
 ## Desktop layout
 
@@ -87,6 +89,23 @@ Queries the size of the current window, so Claude can generate a page that fits 
 ```
 
 Gives a skill page to Claude on how to effectively create things for the user.
+
+```
+--status
+```
+
+Shows the version, how to update if a newer one is out, and whether the dashboard is running in this folder.
+Then tells Claude what to do next: `--start` if it isn't running, or hand it to a `--skill` subagent if it is.
+See `flags/flag.status.md`.
+
+```
+--install
+```
+
+Prints instructions for Claude (or any AI agent) to install the `/aiattentiondashboard` command, its own way.
+It asks the user whether to install for this folder or globally.
+The command's contents come from `processes/aiattentiondashboard.startup.process.md`, built into each release.
+See `flags/flag.install.md`.
 
 ```
 --speak
