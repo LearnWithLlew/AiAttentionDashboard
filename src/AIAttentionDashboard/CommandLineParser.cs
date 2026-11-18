@@ -15,65 +15,43 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
 
     public async Task<int> RunAsync(string[] args, TextWriter output, TextWriter error)
     {
-        var start = new Option<bool>("--start") { Description = "Start the dashboard if needed and open it in a browser." };
-        var refresh = new Option<bool>("--refresh") { Description = "Reload the dashboard page in the browser." };
-        var stop = new Option<bool>("--stop") { Description = "Stop the dashboard server." };
-        var size = new Option<bool>("--size") { Description = "Print the dashboard page's size, so you can make content that fits." };
-        var status = new Option<bool>("--status") { Description = "Say whether the dashboard is running here, and what to do next." };
-        var skill = new Option<bool>("--skill") { Description = "Print a skill page for AI agents on how to use the dashboard well." };
-        var install = new Option<bool>("--install") { Description = "Print instructions for an AI agent to install the /aiattentiondashboard command." };
-        var serve = new Option<bool>(ServeOptionName) { Description = "Run the dashboard server in this process.", Hidden = true };
+        var commands = new (Option<bool> Option, Func<Task<int>> Run)[]
+        {
+            (new(ServeOptionName) { Description = "Run the dashboard server in this process.", Hidden = true }, ServeAsync),
+            (FlagOption("--start", "Start the dashboard if needed and open it in a browser."), () => StartAsync(output)),
+            (FlagOption("--refresh", "Reload the dashboard page in the browser."), () => RefreshAsync(output, error)),
+            (FlagOption("--stop", "Stop the dashboard server."), () => StopAsync(output)),
+            (FlagOption("--size", "Print the dashboard page's size, so you can make content that fits."), () => SizeAsync(output, error)),
+            (FlagOption("--status", "Say whether the dashboard is running here, and what to do next."), () => StatusAsync(output)),
+            (FlagOption("--skill", "Print a skill page for AI agents on how to use the dashboard well."), () => PrintAsync(output, SkillPage.Read())),
+            (FlagOption("--install", "Print instructions for an AI agent to install the /aiattentiondashboard command."), () => PrintAsync(output, InstallPage.Read())),
+        };
 
         var root = new RootCommand("Shows high-level action items for the user in a small browser window.");
-        root.Options.Add(start);
-        root.Options.Add(refresh);
-        root.Options.Add(stop);
-        root.Options.Add(size);
-        root.Options.Add(status);
-        root.Options.Add(skill);
-        root.Options.Add(install);
-        root.Options.Add(serve);
+        foreach (var (option, _) in commands)
+        {
+            root.Options.Add(option);
+        }
         root.SetAction(async (parseResult, cancellationToken) =>
         {
-            if (parseResult.GetValue(serve))
+            var chosen = commands.FirstOrDefault(command => parseResult.GetValue(command.Option));
+            if (chosen.Run is not null)
             {
-                return await ServeAsync();
-            }
-            if (parseResult.GetValue(start))
-            {
-                return await StartAsync(output);
-            }
-            if (parseResult.GetValue(refresh))
-            {
-                return await RefreshAsync(output, error);
-            }
-            if (parseResult.GetValue(stop))
-            {
-                return await StopAsync(output);
-            }
-            if (parseResult.GetValue(size))
-            {
-                return await SizeAsync(output, error);
-            }
-            if (parseResult.GetValue(status))
-            {
-                return await StatusAsync(output);
-            }
-            if (parseResult.GetValue(skill))
-            {
-                output.Write(SkillPage.Read());
-                return 0;
-            }
-            if (parseResult.GetValue(install))
-            {
-                output.Write(InstallPage.Read());
-                return 0;
+                return await chosen.Run();
             }
             error.WriteLine("Nothing to do. Pass --start, --refresh, --stop, --size, --status, --skill, or --install, or --help for usage.");
             return 1;
         });
 
         return await root.Parse(args).InvokeAsync(new InvocationConfiguration { Output = output, Error = error });
+    }
+
+    private static Option<bool> FlagOption(string name, string description) => new(name) { Description = description };
+
+    private static Task<int> PrintAsync(TextWriter output, string page)
+    {
+        output.Write(page);
+        return Task.FromResult(0);
     }
 
     private async Task<int> StartAsync(TextWriter output)
