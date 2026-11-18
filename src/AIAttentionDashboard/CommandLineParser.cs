@@ -1,10 +1,17 @@
 using System.CommandLine;
+using System.Reflection;
 
 namespace AIAttentionDashboard;
 
 internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironment environment)
 {
     internal const string ServeOptionName = "--serve";
+
+    // The package version, without the "+commit" suffix the SDK appends.
+    internal static string Version { get; } =
+        typeof(CommandLineParser).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+            .InformationalVersion.Split('+')[0];
 
     public async Task<int> RunAsync(string[] args, TextWriter output, TextWriter error)
     {
@@ -119,6 +126,7 @@ internal sealed class CommandLineParser(DashboardFiles files, IDashboardEnvironm
     {
         var server = files.ReadServerInfo();
         var running = server is not null && await environment.IsServerRespondingAsync(server);
+        output.WriteLine($"AI Attention Dashboard version {Version}");
         output.WriteLine(running
             ? $"""
               The AI Attention Dashboard is running at {server!.BaseUri}

@@ -214,5 +214,8 @@ public class CommandLineTests : IDisposable
         };
     }
 
-    private string Scrub(string text) => text.Replace(workingFolder, "{WorkingFolder}").Replace('\\', '/');
+    private string Scrub(string text) => text
+        .Replace(workingFolder, "{WorkingFolder}")
+        .Replace($"version {CommandLineParser.Version}", "version {Version}")
+        .Replace('\\', '/');
 }

@@ -4,6 +4,7 @@
 
 ## What it shows
 
+- The version of the AI Attention Dashboard.
 - Whether a dashboard server is running for the current directory.
 
 ## What it tells Claude
@@ -17,6 +18,7 @@
 When running:
 
 ```
+AI Attention Dashboard version 0.1.0
 The AI Attention Dashboard is running at http://localhost:5123/
 To keep it current, start a background subagent on a small, fast model.
 Tell it to run `aiattentiondashboard --skill` and follow it.
@@ -25,6 +27,7 @@ Tell it to run `aiattentiondashboard --skill` and follow it.
 When not running:
 
 ```
+AI Attention Dashboard version 0.1.0
 The AI Attention Dashboard is not running for this directory.
 To use it, run `aiattentiondashboard --start`.
 ```
