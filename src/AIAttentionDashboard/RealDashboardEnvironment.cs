@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Net.Http.Json;
-using System.Reflection;
 
 namespace AIAttentionDashboard;
 
@@ -24,12 +23,7 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
         }
     }
 
-    // STANDALONE is defined when publishing the single-file download (see the .csproj).
-#if STANDALONE
-    public bool IsStandalone => true;
-#else
-    public bool IsStandalone => false;
-#endif
+    public bool IsStandalone => InstallKind.IsStandalone;
 
     public async Task<string?> GetLatestVersionAsync()
     {
@@ -75,9 +69,7 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
 
     private ProcessStartInfo BuildServerStartInfo()
     {
-        var processPath = Environment.ProcessPath!;
-        var isDotnetHost = Path.GetFileNameWithoutExtension(processPath).Equals("dotnet", StringComparison.OrdinalIgnoreCase);
-        var startInfo = new ProcessStartInfo(processPath)
+        var startInfo = new ProcessStartInfo(Environment.ProcessPath!)
         {
             UseShellExecute = false,
             CreateNoWindow = true,
@@ -86,10 +78,7 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
             RedirectStandardError = true,
             WorkingDirectory = files.WorkingFolder,
         };
-        if (isDotnetHost)
-        {
-            startInfo.ArgumentList.Add(Assembly.GetExecutingAssembly().Location);
-        }
+        InstallKind.AddHostArguments(startInfo);
         startInfo.ArgumentList.Add(CommandLineParser.ServeOptionName);
         return startInfo;
     }
