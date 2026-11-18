@@ -32,6 +32,7 @@ Run these from your project's folder:
 | `aiattentiondashboard --refresh` | Reloads the page after the HTML file changes. |
 | `aiattentiondashboard --size` | Prints the page's width and height, so content can fit without scrolling. |
 | `aiattentiondashboard --stop` | Stops the dashboard. |
+| `aiattentiondashboard --status` | Prints the version, whether the dashboard is running here, and what to do next. |
 | `aiattentiondashboard --skill` | Prints instructions for the AI agent on how to use the dashboard well. |
 
 The quickest way to get going is to tell your agent:
