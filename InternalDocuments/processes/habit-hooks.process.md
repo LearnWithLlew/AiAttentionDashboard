@@ -13,6 +13,19 @@ tools/run-habit-hooks.sh --branch main       # changed files vs a branch
 tools/run-habit-hooks.sh --all               # whole scanned scope
 ```
 
+## This repo
+
+These override the generic steps below.
+
+- Run habit hooks with `bash tools/run-habit-hooks.sh`; the script isn't executable.
+- There is no `quick_check.sh`. Use `./build-and-test` (about 10 seconds) and check its exit code.
+  It is also the full static check.
+- Commit each fix with `bash tools/create-commit-message.sh proven refactor "<message>"`.
+- Stage only the files you changed; never `git add -A`.
+- Many `.cs` files use CRLF line endings. Keep them; a whole-file diff means you converted them.
+- Don't edit `.verified.*` snapshots. A failing snapshot means the change altered behavior: revert it.
+- The `xUnit1051` warnings in `DashboardServerTests.cs` already exist; ignore them.
+
 ## Steps
 
 Note: If multiple files are specified, do each one in a sub-agent, one at a time sequentially.
