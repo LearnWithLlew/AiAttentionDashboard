@@ -8,8 +8,9 @@
 
 ## What it tells Claude
 
-- To keep the dashboard current, start a subagent and have it run `aiattentiondashboard --skill`.
-- The subagent works out what to do from there.
+- If running: to keep the dashboard current, start a subagent and have it run `aiattentiondashboard --skill`.
+  The subagent works out what to do from there.
+- If not running: run `aiattentiondashboard --start`.
 
 ## Sample output
 
@@ -25,6 +26,5 @@ When not running:
 
 ```
 The AI Attention Dashboard is not running for this directory.
-To use it, start a background subagent on a small, fast model.
-Tell it to run `aiattentiondashboard --skill` and follow it.
+To use it, run `aiattentiondashboard --start`.
 ```
