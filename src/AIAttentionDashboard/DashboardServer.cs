@@ -129,6 +129,7 @@ internal sealed class DashboardServer : IAsyncDisposable
         }
         catch (OperationCanceledException)
         {
+            // The page closed its event stream; that is the normal way a listener leaves.
         }
         finally
         {
