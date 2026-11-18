@@ -24,7 +24,7 @@ These override the generic steps below.
 - Stage only the files you changed; never `git add -A`.
 - Many `.cs` files use CRLF line endings. Keep them; a whole-file diff means you converted them.
 - Don't edit `.verified.*` snapshots. A failing snapshot means the change altered behavior: revert it.
-- The `xUnit1051` warnings in `DashboardServerTests.cs` already exist; ignore them.
+- The build has no warnings; keep it that way.
 
 ## Steps
 
