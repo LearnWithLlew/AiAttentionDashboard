@@ -54,22 +54,7 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
     public async Task<ServerInfo> LaunchServerAsync()
     {
         files.DeleteServerInfo();
-        var processPath = Environment.ProcessPath!;
-        var isDotnetHost = Path.GetFileNameWithoutExtension(processPath).Equals("dotnet", StringComparison.OrdinalIgnoreCase);
-        var startInfo = new ProcessStartInfo(processPath)
-        {
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            WorkingDirectory = files.WorkingFolder,
-        };
-        if (isDotnetHost)
-        {
-            startInfo.ArgumentList.Add(Assembly.GetExecutingAssembly().Location);
-        }
-        startInfo.ArgumentList.Add(CommandLineParser.ServeOptionName);
+        var startInfo = BuildServerStartInfo();
         using var process = Process.Start(startInfo) ?? throw new InvalidOperationException("Could not start the dashboard server.");
 
         for (var attempt = 0; attempt < 100; attempt++)
@@ -86,6 +71,27 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
             await Task.Delay(100);
         }
         throw new TimeoutException("The dashboard server did not start within 10 seconds.");
+    }
+
+    private ProcessStartInfo BuildServerStartInfo()
+    {
+        var processPath = Environment.ProcessPath!;
+        var isDotnetHost = Path.GetFileNameWithoutExtension(processPath).Equals("dotnet", StringComparison.OrdinalIgnoreCase);
+        var startInfo = new ProcessStartInfo(processPath)
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            WorkingDirectory = files.WorkingFolder,
+        };
+        if (isDotnetHost)
+        {
+            startInfo.ArgumentList.Add(Assembly.GetExecutingAssembly().Location);
+        }
+        startInfo.ArgumentList.Add(CommandLineParser.ServeOptionName);
+        return startInfo;
     }
 
     public void OpenBrowser(Uri uri) =>
