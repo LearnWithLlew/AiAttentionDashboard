@@ -10,3 +10,21 @@
 
 - To keep the dashboard current, start a subagent and have it run `aiattentiondashboard --skill`.
 - The subagent works out what to do from there.
+
+## Sample output
+
+When running:
+
+```
+The AI Attention Dashboard is running at http://localhost:5123/
+To keep it current, start a background subagent on a small, fast model.
+Tell it to run `aiattentiondashboard --skill` and follow it.
+```
+
+When not running:
+
+```
+The AI Attention Dashboard is not running for this directory.
+To use it, start a background subagent on a small, fast model.
+Tell it to run `aiattentiondashboard --skill` and follow it.
+```
