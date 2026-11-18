@@ -28,25 +28,25 @@ public class DashboardServerTests : IAsyncLifetime
     [Fact]
     public async Task ServesDashboardWithReloadScript()
     {
-        await Verify(await http.GetStringAsync(baseUri), "html");
+        await Verify(await http.GetStringAsync(baseUri, TestContext.Current.CancellationToken), "html");
     }
 
     [Fact]
     public async Task Refresh_WithNoPages_ReloadsZero()
     {
-        var response = await http.PostAsync(new Uri(baseUri, "refresh"), null);
+        var response = await http.PostAsync(new Uri(baseUri, "refresh"), null, TestContext.Current.CancellationToken);
 
-        Assert.Equal("0", await response.Content.ReadAsStringAsync());
+        Assert.Equal("0", await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
     }
 
     [Fact]
     public async Task Stop_ShutsDownServer()
     {
-        var response = await http.PostAsync(new Uri(baseUri, "stop"), null);
+        var response = await http.PostAsync(new Uri(baseUri, "stop"), null, TestContext.Current.CancellationToken);
 
         Assert.True(response.IsSuccessStatusCode);
         var shutdown = server.WaitForShutdownAsync();
-        Assert.Same(shutdown, await Task.WhenAny(shutdown, Task.Delay(TimeSpan.FromSeconds(10))));
+        Assert.Same(shutdown, await Task.WhenAny(shutdown, Task.Delay(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken)));
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class DashboardServerTests : IAsyncLifetime
     [Fact]
     public async Task Size_WithNoPage_IsNotFound()
     {
-        var response = await http.GetAsync(new Uri(baseUri, "size"));
+        var response = await http.GetAsync(new Uri(baseUri, "size"), TestContext.Current.CancellationToken);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
