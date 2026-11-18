@@ -193,6 +193,7 @@ internal sealed class RealDashboardEnvironment(DashboardFiles files) : IDashboar
             }
             catch (OperationCanceledException)
             {
+                // Best effort: stop waiting after 10 seconds and let the caller carry on.
             }
         }
     }
