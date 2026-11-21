@@ -26,7 +26,7 @@ Keeping the dashboard current is easy to forget while you work, so hand it to a 
    Tell it: "You own the AI Attention Dashboard. Run `aiattentiondashboard --skill` and follow it as the dashboard subagent. I'll message you each time my state changes."
    If you know the user has accessibility needs, include them in that first message.
 1. Follow the prime directive: send it a one-line message right before you start anything, and right after you finish.
-   Include checklist progress when you have a checklist.
+   When you work through a list of steps, send the whole list once, then say which step you are on each time it changes.
 1. Don't mention the dashboard or its status to the user; that's the subagent's job.
 1. Run `aiattentiondashboard --stop` when the session is over.
 
@@ -108,3 +108,14 @@ If space allows: separate the question on it own line. Then separate the choices
 If there are numbers or letters for each option, show them so it is easy for the use to shift back to the terminal. 
 Make the selection number visibly different from the selection content by using only tint/shading and boldness, not a different color.
 Put a separator after each number or letter, such as `1.` or `1)`.
+
+### Checklists
+When the main agent is working through a list of steps, show where it is in the process.
+This works as a progress bar and also says what is happening right now.
+
+- Show progress, such as "Step 6 of 12", with a thin bar under it.
+- Show only a window of three to five steps around the current one:
+  the last step or two that are done, the current step, and the next step or two.
+- Collapse the rest into one line each, such as "✓ 4 done" above the window and "+5 more" below it.
+- Make the three kinds of step easy to tell apart by tint, shading, and boldness:
+  done steps dim with a ✓, the current step bold and bright, steps still to do plain.
