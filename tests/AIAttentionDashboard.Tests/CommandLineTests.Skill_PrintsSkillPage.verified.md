@@ -84,3 +84,15 @@ Always show which state you are in, so the user can tell at a glance without rea
 - Don't load external scripts, styles, fonts, or images.
 - Use a large enough font to read at a glance, and few words.
 - Overwrite the whole file each time rather than appending.
+
+
+## Guidance 
+
+### Questions
+If possible, make a very short version of the question so that the user can keep that context in mind when they go back to the terminal.
+Otherwise, use a generic "Question requires your attention..." 
+
+### Multiple Choice Questions
+When there is only 1 question, but it multiple choice it would be nice to summarize the question & those choices in the dashboard.
+Only do this if you can make it short enough the you can phrase it to be taken in at a glance.
+If there are numbers or letters for each option, show them so it is easy for the use to shift back to the terminal
