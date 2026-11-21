@@ -24,6 +24,7 @@ Keeping the dashboard current is easy to forget while you work, so hand it to a 
 1. Run `aiattentiondashboard --start`.
 1. Start a background subagent on a small, fast model (in Claude Code, Haiku).
    Tell it: "You own the AI Attention Dashboard. Run `aiattentiondashboard --skill` and follow it as the dashboard subagent. I'll message you each time my state changes."
+   If you know the user has accessibility needs, include them in that first message.
 1. Follow the prime directive: send it a one-line message right before you start anything, and right after you finish.
    Include checklist progress when you have a checklist.
 1. Don't mention the dashboard or its status to the user; that's the subagent's job.
@@ -75,6 +76,10 @@ Always show which state you are in, so the user can tell at a glance without rea
 
 - Put the state in a narrow colored bar down the left edge, with its icon centered in it.
 - Keep the rest of the page dark and neutral, so the state color is what stands out.
+
+## Accessibility
+
+If you know the user has accessibility needs, adapt the dashboard to them, even when that overrides the defaults on this page.
 
 ## How to write the HTML
 
