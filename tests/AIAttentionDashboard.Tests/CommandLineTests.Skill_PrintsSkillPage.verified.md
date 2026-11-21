@@ -113,9 +113,16 @@ Put a separator after each number or letter, such as `1.` or `1)`.
 When the main agent is working through a list of steps, show where it is in the process.
 This works as a progress bar and also says what is happening right now.
 
-- Show progress, such as "Step 6 of 12", with a thin bar under it.
-- Show only a window of three to five steps around the current one:
-  the last step or two that are done, the current step, and the next step or two.
-- Collapse the rest into one line each, such as "✓ 4 done" above the window and "+5 more" below it.
-- Make the three kinds of step easy to tell apart by tint, shading, and boldness:
-  done steps dim with a ✓, the current step bold and bright, steps still to do plain.
+- Don't add a title or heading line; the highlighted current step already says what is happening.
+- Show a thin progress bar with the count beside it, such as "6 / 12".
+- Show only a window of at most four steps around the current one:
+  the last one or two that are done, the current step, and the next one or two.
+  Use three steps when four don't fit.
+- Everything, including the progress bar and the "+5 more" line, must be fully visible; nothing may be clipped at the top or bottom.
+- Leave out earlier done steps entirely; the progress bar already shows them.
+  Collapse later steps into one line, such as "+5 more".
+- Show each kind of step differently:
+  - Done: the whole line green and struck through, with no ✓.
+  - Current: bold and bright.
+  - Still to do: plain.
+- Line up the step numbers in a right-aligned column on every row, done or not, so the user can scan up and down them.
