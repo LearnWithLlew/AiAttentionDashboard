@@ -124,6 +124,6 @@ This works as a progress bar and also says what is happening right now.
   Collapse later steps into one line, such as "+5 more".
 - Show each kind of step differently:
   - Done: the whole line green and struck through, with no ✓.
-  - Current: bold and yellow.
+  - Current: bold, in the same amber as the Working state (`#d18a00`).
   - Still to do: plain.
 - Line up the step numbers in a right-aligned column on every row, done or not, so the user can scan up and down them.
