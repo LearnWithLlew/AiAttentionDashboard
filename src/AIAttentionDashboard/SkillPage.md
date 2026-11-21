@@ -99,4 +99,7 @@ Lay out a question from top to bottom like this:
 ### Multiple Choice Questions
 When there is only 1 question, but it multiple choice it would be nice to summarize the question & those choices in the dashboard.
 Only do this if you can make it short enough the you can phrase it to be taken in at a glance.
-If there are numbers or letters for each option, show them so it is easy for the use to shift back to the terminal
+If space allows: separate the question on it own line. Then separate the choices on their own line
+If there are numbers or letters for each option, show them so it is easy for the use to shift back to the terminal. 
+Make the selection number visibly different from the selection content by using only tint/shading and boldness, not a different color.
+Put a separator after each number or letter, such as `1.` or `1)`.
