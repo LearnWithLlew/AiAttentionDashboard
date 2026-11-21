@@ -58,7 +58,7 @@ Run `aiattentiondashboard --size` to get the page's current width and height, an
 
 - Show only high-level action items, not progress logs or details.
   The details belong in the terminal.
-- Make the one thing you need from the user obvious: what to do and where (for example, "Decision needed in the terminal").
+- Make the one thing you need from the user obvious, and say where to respond.
 - Show a short status line for what you are working on when nothing is needed from the user.
 - Remove items once they are handled.
   Stale items train the user to ignore the dashboard.
@@ -74,7 +74,6 @@ Always show which state you are in, so the user can tell at a glance without rea
 | Done | You have finished, or are idle. | Green `#1e7a3c` | `✓` |
 
 - Put the state in a narrow colored bar down the left edge, with its icon centered in it.
-- When Waiting, also add a red line saying where to answer (for example, "Question needs your attention (terminal)").
 - Keep the rest of the page dark and neutral, so the state color is what stands out.
 
 ## How to write the HTML
@@ -90,7 +89,12 @@ Always show which state you are in, so the user can tell at a glance without rea
 
 ### Questions
 If possible, make a very short version of the question so that the user can keep that context in mind when they go back to the terminal.
-Otherwise, use a generic "Question requires your attention..." 
+Otherwise, use a generic "See the terminal." as the question.
+
+Lay out a question from top to bottom like this:
+
+1. `Question (terminal):` on a line of its own in red, naming where to answer.
+1. The short version of the question.
 
 ### Multiple Choice Questions
 When there is only 1 question, but it multiple choice it would be nice to summarize the question & those choices in the dashboard.
