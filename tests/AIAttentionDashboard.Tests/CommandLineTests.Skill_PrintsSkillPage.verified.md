@@ -26,7 +26,7 @@ Keeping the dashboard current is easy to forget while you work, so hand it to a 
    Tell it: "You own the AI Attention Dashboard. Run `aiattentiondashboard --skill` and follow it as the dashboard subagent. I'll message you each time my state changes."
    If you know the user has accessibility needs, include them in that first message.
 1. Follow the prime directive: send it a one-line message right before you start anything, and right after you finish.
-   When you work through a list of steps, send the whole list once, then say which step you are on each time it changes.
+   When you work through a list of steps, send the overall goal and the whole list once, then say which step you are on each time it changes.
 1. Don't mention the dashboard or its status to the user; that's the subagent's job.
 1. Run `aiattentiondashboard --stop` when the session is over.
 
@@ -113,7 +113,8 @@ Put a separator after each number or letter, such as `1.` or `1)`.
 When the main agent is working through a list of steps, show where it is in the process.
 This works as a progress bar and also says what is happening right now.
 
-- Don't add a title or heading line; the highlighted current step already says what is happening.
+- Put a short title at the top naming the overall goal of the steps, such as "Release 0.1.9".
+  Don't repeat the current step in it; the highlighted step already says that.
 - Show a thin progress bar with the count beside it, such as "6 / 12".
 - Show only a window of at most four steps around the current one:
   the last one or two that are done, the current step, and the next one or two.
@@ -123,6 +124,6 @@ This works as a progress bar and also says what is happening right now.
   Collapse later steps into one line, such as "+5 more".
 - Show each kind of step differently:
   - Done: the whole line green and struck through, with no ✓.
-  - Current: bold and bright.
+  - Current: bold and yellow.
   - Still to do: plain.
 - Line up the step numbers in a right-aligned column on every row, done or not, so the user can scan up and down them.
